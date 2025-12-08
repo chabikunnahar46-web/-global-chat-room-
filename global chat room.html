@@ -5,6 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Global Chat Room</title>
     <link rel="stylesheet" href="style.css">
+    body {
+    margin: 0;
+    padding: 0;
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Royal Header */
+.royal-header {
+    background: linear-gradient(45deg, #8000ff, #cc00ff, #ff0099);
+    padding: 20px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: gold;
+    border-bottom: 3px solid gold;
+    box-shadow: 0 0 15px gold;
+}
+
+/* Chat Box */
+#chat-box {
+    height: calc(100vh - 140px);
+    overflow-y: auto;
+    padding: 10px;
+}
+
+/* Bottom Message Bar */
+.message-area {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    background: #222;
+    padding: 10px;
+    border-top: 2px solid #444;
+}
+
+/* Input Style */
+.message-area input {
+    flex: 1;
+    padding: 12px;
+    background: #333;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    outline: none;
+
+    /* Glow Effect */
+    box-shadow: 0 0 8px #ff00ff;
+    animation: glow 1.4s infinite alternate;
+}
+
+/* Glow animation */
+@keyframes glow {
+    from { box-shadow: 0 0 5px #ff00ff; }
+    to { box-shadow: 0 0 12px #ff55ff; }
+}
+
+/* Send Button */
+.message-area button {
+    margin-left: 10px;
+    padding: 12px 18px;
+    background: #8800ff;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+}
 </head>
 <body>
 
