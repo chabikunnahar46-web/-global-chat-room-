@@ -1,44 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Chat Room</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f0f2f5;
+    }
+    h1 {
+      margin-bottom: 40px;
+      color: #333;
+    }
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    button {
+      padding: 20px 40px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      color: white;
+    }
+    #createProfile {
+      background-color: #4CAF50;
+    }
+    #createProfile:hover {
+      background-color: #45a049;
+    }
+    #enterChat {
+      background-color: #008CBA;
+    }
+    #enterChat:hover {
+      background-color: #007bb5;
+    }
+  </style>
 </head>
 <body>
+  <h1>Welcome to Global Chat</h1>
+  <div class="button-container">
+    <button id="createProfile">Create Profile</button>
+    <button id="enterChat">Enter Global Chat Room</button>
+  </div>
 
-    <!-- Royal Header -->
-    <header class="royal-header">
-        🌟 Global Royal Chat Room 🌟
-    </header>
-
-    <!-- Chat Messages -->
-    <div id="chat-box"></div>
-
-    <!-- Message Input Box -->
-    <div class="message-area">
-        <input type="text" id="messageInput" placeholder="Write a message..." />
-        <button onclick="sendMessage()">Send</button>
-    </div>
-
-    <script src="script.js"></script>
-    <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
-    authDomain: "global-chat-75f38.firebaseapp.com",
-    projectId: "global-chat-75f38",
-    storageBucket: "global-chat-75f38.firebasestorage.app",
-    messagingSenderId: "682790896070",
-    appId: "1:682790896070:web:5d142dec99031730f072c7",
-    measurementId: "G-X9H4HM2010"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-    </script>
+  <script>
+    document.getElementById('createProfile').onclick = () => {
+      window.location.href = 'profile.html'; // যেখানে প্রোফাইল page আছে
+    };
+    document.getElementById('enterChat').onclick = () => {
+      window.location.href = 'chat.html'; // যেখানে global chat room page আছে
+    };
+  </script>
 </body>
 </html>
