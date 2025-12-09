@@ -1,109 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Chat Room</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background: #f0f2f5;
+    #chatBox {
+      height: 350px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      overflow-y: auto;
+      background: #f8f8f8;
     }
-    h1 {
-      margin-bottom: 40px;
-      color: #333;
+    #messageInput {
+      width: 70%;
+      padding: 8px;
     }
-    .button-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    button {
-      padding: 20px 40px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-      color: white;
-    }
-    #createProfile {
-      background-color: #4CAF50;
-    }
-    #createProfile:hover {
-      background-color: #45a049;
-    }
-    #enterChat {
-      background-color: #008CBA;
-    }
-    #enterChat:hover {
-      background-color: #007bb5;
+    #sendBtn {
+      padding: 8px 15px;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to Global Chat</h1>
-  <div class="button-container">
-    <button id="createProfile">Create Profile</button>
-    <button id="enterChat">Enter Global Chat Room</button>
-  </div>
 
-  <script>
-    document.getElementById('createProfile').onclick = () => {
-      window.location.href = 'profile.html'; // যেখানে প্রোফাইল page আছে
-    };
-    document.getElementById('enterChat').onclick = () => {
-      window.location.href = 'chat.html'; // যেখানে global chat room page আছে
-    };
-  </script>
-</body>
+  <h2>🌍 Global Chat Room</h2>
+
+  <div id="chatBox"></div>
+
+  <input id="messageInput" type="text" placeholder="Write a message..." />
+  <button id="sendBtn" onclick="sendMessage()">Send</button>
+
+  <!-- Firebase Chat Code -->
   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
-    authDomain: "global-chat-75f38.firebaseapp.com",
-    projectId: "global-chat-75f38",
-    storageBucket: "global-chat-75f38.firebasestorage.app",
-    messagingSenderId: "682790896070",
-    appId: "1:682790896070:web:5d142dec99031730f072c7"
-  };
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot } from 
+    "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-  // Firebase Initialize
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+    const firebaseConfig = {
+      apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
+      authDomain: "global-chat-75f38.firebaseapp.com",
+      projectId: "global-chat-75f38",
+      storageBucket: "global-chat-75f38.firebasestorage.app",
+      messagingSenderId: "682790896070",
+      appId: "1:682790896070:web:5d142dec99031730f072c7"
+    };
 
-  // Send Message Function
-  async function sendMessage() {
-    const messageInput = document.getElementById("messageInput");
-    const text = messageInput.value;
-    if (text.trim() === "") return;
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    await addDoc(collection(db, "messages"), {
-      text: text,
-      time: new Date()
+    // SEND MESSAGE
+    window.sendMessage = async function () {
+      const messageInput = document.getElementById("messageInput");
+      const text = messageInput.value;
+
+      if (text.trim() === "") return;
+
+      await addDoc(collection(db, "messages"), {
+        text: text,
+        time: new Date()
+      });
+
+      messageInput.value = "";
+    };
+
+    // LOAD MESSAGES LIVE
+    const chatBox = document.getElementById("chatBox");
+
+    onSnapshot(collection(db, "messages"), (snapshot) => {
+      chatBox.innerHTML = "";
+      snapshot.forEach((doc) => {
+        const msg = doc.data().text;
+        const p = document.createElement("p");
+        p.textContent = msg;
+        chatBox.appendChild(p);
+      });
     });
 
-    messageInput.value = "";
-  }
-
-  // Load Messages Live
-  const chatBox = document.getElementById("chatBox");
-  onSnapshot(collection(db, "messages"), (snapshot) => {
-    chatBox.innerHTML = "";
-    snapshot.forEach((doc) => {
-      const msg = doc.data().text;
-      const p = document.createElement("p");
-      p.textContent = msg;
-      chatBox.appendChild(p);
-    });
-  });
   </script>
+
+</body>
 </html>
