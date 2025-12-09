@@ -1,64 +1,59 @@
-      <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Global Chat Room</title>
+  <title>Login / Signup</title>
   <style>
-    #chatBox {
-      height: 350px;
-      border: 1px solid #ccc;
-      padding: 10px;
-      overflow-y: auto;
-      background: #f8f8f8;
+    body{font-family:Arial;background:#f5f5f5;padding:40px;}
+    .box{
+      width:300px;margin:auto;background:white;padding:20px;
+      border-radius:10px;box-shadow:0 0 10px #ccc;
     }
-    #messageInput {
-      width: 70%;
-      padding: 8px;
+    input{
+      width:100%;padding:10px;margin:10px 0;border:1px solid #ddd;
+      border-radius:5px;
     }
-    #sendBtn {
-      padding: 8px 15px;
+    button{
+      width:100%;padding:10px;background:#0084ff;color:white;
+      border:none;border-radius:5px;font-size:16px;
     }
   </style>
 </head>
+
 <body>
+  <div class="box">
+    <h2>Create Account / Login</h2>
+    <input id="email" placeholder="Email">
+    <input id="pass" type="password" placeholder="Password">
+    <button onclick="login()">Login / Signup</button>
+  </div>
 
-  <h2>🌍 Global Chat Room</h2>
-
-  <div id="chatBox"></div>
-
-  <input id="messageInput" type="text" placeholder="Write a message..." />
-  <button id="sendBtn" onclick="sendMessage()">Send</button>
-
-  <!-- Firebase Chat Code -->
   <script type="module">
+    import { auth, db } from "./firebase.js";
+    import { createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+    from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import { doc, setDoc } 
+    from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot } from 
-    "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+    async function login(){
+      let email = email.value;
+      let pass = pass.value;
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
-      authDomain: "global-chat-75f38.firebaseapp.com",
-      projectId: "global-chat-75f38",
-      storageBucket: "global-chat-75f38.firebasestorage.app",
-      messagingSenderId: "682790896070",
-      appId: "1:682790896070:web:5d142dec99031730f072c7"
-    };
+      try {
+        let user = await signInWithEmailAndPassword(auth, email, pass);
+        location.href = "profile.html";
+      } catch {
+        let user = await createUserWithEmailAndPassword(auth, email, pass);
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+        // create default profile
+        await setDoc(doc(db, "users", user.user.uid), {
+          email: email,
+          name: "New User",
+          photo: "https://i.ibb.co/4pDNDk1/avatar.png"
+        });
 
-    // SEND MESSAGE
-    window.sendMessage = async function () {
-      const messageInput = document.getElementById("messageInput");
-      const text = messageInput.value;
-
-      if (text.trim() === "") return;
-
-      await addDoc(collection(db, "messages"), {
-        text: text,
-        time: new Date()
-      });
-
+        location.href = "profile.html";
+      }
+    }
+  </script>
+</body>
+</html>
