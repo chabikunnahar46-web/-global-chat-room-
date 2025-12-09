@@ -63,4 +63,47 @@
     };
   </script>
 </body>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
+    authDomain: "global-chat-75f38.firebaseapp.com",
+    projectId: "global-chat-75f38",
+    storageBucket: "global-chat-75f38.firebasestorage.app",
+    messagingSenderId: "682790896070",
+    appId: "1:682790896070:web:5d142dec99031730f072c7"
+  };
+
+  // Firebase Initialize
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Send Message Function
+  async function sendMessage() {
+    const messageInput = document.getElementById("messageInput");
+    const text = messageInput.value;
+    if (text.trim() === "") return;
+
+    await addDoc(collection(db, "messages"), {
+      text: text,
+      time: new Date()
+    });
+
+    messageInput.value = "";
+  }
+
+  // Load Messages Live
+  const chatBox = document.getElementById("chatBox");
+  onSnapshot(collection(db, "messages"), (snapshot) => {
+    chatBox.innerHTML = "";
+    snapshot.forEach((doc) => {
+      const msg = doc.data().text;
+      const p = document.createElement("p");
+      p.textContent = msg;
+      chatBox.appendChild(p);
+    });
+  });
+  </script>
 </html>
