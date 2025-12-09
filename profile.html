@@ -1,59 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Profile / Login</title>
+  <title>Your Profile</title>
   <style>
-    body { font-family: Arial; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background:#f0f2f5; }
-    input, button { padding:10px; margin:5px; font-size:16px; border-radius:5px; }
-    button { cursor:pointer; }
+    body{text-align:center;font-family:Arial;background:#eef2f5;}
+    .card{
+      width:300px;background:white;margin:auto;margin-top:50px;padding:20px;
+      border-radius:10px;box-shadow:0 0 10px #ccc;
+    }
+    img{
+      width:120px;height:120px;border-radius:50%;
+      border:3px solid #0084ff;
+    }
+    input{
+      width:90%;padding:10px;margin-top:10px;border:1px solid #ddd;border-radius:5px;
+    }
+    button{
+      padding:10px 20px;background:#0084ff;color:white;border:none;border-radius:5px;margin-top:10px;
+    }
   </style>
 </head>
+
 <body>
-  <h2>Create Account / Login</h2>
-  <input type="email" id="email" placeholder="Email" />
-  <input type="password" id="password" placeholder="Password" />
-  <button id="signup">Sign Up</button>
-  <button id="login">Login</button>
 
-  <!-- Firebase -->
+  <div class="card">
+    <img id="photo">
+    <h2 id="name"></h2>
+    <p id="email"></p>
+
+    <input id="newName" placeholder="Change Name">
+    <input id="newPhoto" placeholder="Change Photo URL">
+    <button onclick="updateProfile()">Update</button>
+  </div>
+
+
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import { auth, db } from "./firebase.js";
+    import { onAuthStateChanged } 
+    from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import { doc, getDoc, updateDoc } 
+    from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
-      authDomain: "global-chat-75f38.firebaseapp.com",
-      projectId: "global-chat-75f38",
-      storageBucket: "global-chat-75f38.firebasestorage.app",
-      messagingSenderId: "682790896070",
-      appId: "1:682790896070:web:5d142dec99031730f072c7"
-    };
+    onAuthStateChanged(auth, async (user)=>{
+      if(!user) return location.href="index.html";
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+      let snap = await getDoc(doc(db,"users",user.uid));
+      let data = snap.data();
 
-    // Sign Up
-    document.getElementById('signup').onclick = () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => alert('Account created!'))
-        .catch(err => alert(err.message));
-    };
+      name.innerText = data.name;
+      email.innerText = data.email;
+      photo.src = data.photo;
+    });
 
-    // Login
-    document.getElementById('login').onclick = () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          alert('Logged in!');
-          window.location.href = 'chat.html'; // login success → chat page
-        })
-        .catch(err => alert(err.message));
-    };
+    async function updateProfile(){
+      let user = auth.currentUser;
+      await updateDoc(doc(db,"users",user.uid),{
+        name: newName.value,
+        photo: newPhoto.value
+      });
+      location.reload();
+    }
   </script>
+
 </body>
-    </html>
+</html>
