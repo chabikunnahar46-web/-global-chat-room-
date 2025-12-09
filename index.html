@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+      <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -62,23 +62,3 @@
         time: new Date()
       });
 
-      messageInput.value = "";
-    };
-
-    // LOAD MESSAGES LIVE
-    const chatBox = document.getElementById("chatBox");
-
-    onSnapshot(collection(db, "messages"), (snapshot) => {
-      chatBox.innerHTML = "";
-      snapshot.forEach((doc) => {
-        const msg = doc.data().text;
-        const p = document.createElement("p");
-        p.textContent = msg;
-        chatBox.appendChild(p);
-      });
-    });
-
-  </script>
-
-</body>
-</html>
