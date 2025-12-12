@@ -80,45 +80,31 @@ h2 {
   color: white;
   border-radius: 10px;
   cursor: pointer;
-      }
-body {
-    font-family: Arial;
-    background: #f2f2f2;
+      ঐ
+  body {
+  font-family: Arial;
+  text-align: center;
+}
+
+.form-box {
+  width: 300px;
+  margin: auto;
 }
 
 .cover-photo {
-    width: 100%;
-    height: 180px;
-    background: linear-gradient(to right, #4e54c8, #8f94fb);
-    position: relative;
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(to right, #ff6a00, #ee0979);
 }
 
-.profile-photo {
-    width: 120px;
-    height: 120px;
-    position: absolute;
-    top: 130px;
-    left: 20px;
+.profile-container {
+  margin-top: -50px;
 }
 
-.profile-photo img {
-    width: 120px;
-    height: 120px;
-    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-    object-fit: cover;
-    border: 3px solid white;
+.pentagon {
+  width: 120px;
+  height: 120px;
+  background: url('https://i.postimg.cc/02Qmwvhd/avatar.png') center/cover;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+  margin: auto;
 }
-
-.info-box {
-    margin-top: 70px;
-    padding: 20px;
-    background: white;
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 10px;
-}
-
-.option {
-    margin-bottom: 10px;
-                                   }
