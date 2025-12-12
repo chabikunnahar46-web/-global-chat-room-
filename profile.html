@@ -9,27 +9,29 @@
 <div class="cover-photo"></div>
 
 <div class="profile-container">
-
-  <!-- Pentagon Profile Photo -->
   <div class="pentagon"></div>
 
   <h2 id="pName"></h2>
   <p id="pAge"></p>
-  <p id="pGF"></p>
-  <p id="pBalance"></p>
+  <p id="pLocation"></p>
+  <p id="pSchool"></p>
 
+  <br>
+  <a href="edit-profile.html">
+    <button>Edit Profile</button>
+  </a>
 </div>
 
 <script>
 let data = JSON.parse(localStorage.getItem("userProfile"));
 
-document.getElementById("pName").innerHTML = "Name: " + data.name;
-document.getElementById("pAge").innerHTML = "Age: " + data.age;
-
-if (data.age <= 24){
-  document.getElementById("pGF").innerHTML = "Girlfriend: " + data.girlfriend;
-} else {
-  document.getElementById("pBalance").innerHTML = "Bank Balance: " + data.balance;
+if(data){
+  document.getElementById("pName").innerHTML = "Name: " + data.name;
+  document.getElementById("pAge").innerHTML = "Age: " + data.age;
+  document.getElementById("pLocation").innerHTML = "Location: " + data.location;
+  document.getElementById("pSchool").innerHTML = "School: " + data.school;
+}else{
+  document.getElementById("pName").innerHTML = "No profile data found";
 }
 </script>
 
