@@ -9,12 +9,15 @@
 <div class="cover-photo"></div>
 
 <div class="profile-container">
+
+  <!-- Pentagon Profile Photo -->
   <div class="pentagon"></div>
 
   <h2 id="pName"></h2>
   <p id="pAge"></p>
   <p id="pGF"></p>
   <p id="pBalance"></p>
+
 </div>
 
 <script>
@@ -23,7 +26,7 @@ let data = JSON.parse(localStorage.getItem("userProfile"));
 document.getElementById("pName").innerHTML = "Name: " + data.name;
 document.getElementById("pAge").innerHTML = "Age: " + data.age;
 
-if (data.age <= 24) {
+if (data.age <= 24){
   document.getElementById("pGF").innerHTML = "Girlfriend: " + data.girlfriend;
 } else {
   document.getElementById("pBalance").innerHTML = "Bank Balance: " + data.balance;
