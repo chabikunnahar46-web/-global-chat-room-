@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Profile</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Edit Your Profile</h2>
+
+<div class="form-box">
+  <input id="name" type="text" placeholder="Your Name"><br><br>
+  <input id="age" type="number" placeholder="Your Age"><br><br>
+  <input id="location" type="text" placeholder="Where do you live?"><br><br>
+  <input id="school" type="text" placeholder="School / College Name"><br><br>
+  <input id="🏦 balance"type="text"buttonbutton onclick="saveData()">Save</button>
+</div>
+
+<script>
+function saveData(){
+  let profile = {
+    name : document.getElementById("name").value,
+    age : document.getElementById("age").value,
+    location : document.getElementById("location").value,
+    school : document.getElementById("school").value
+  }
+
+  localStorage.setItem("userProfile", JSON.stringify(profile));
+  alert("Profile Saved!");
+  window.location.href = "profile.html";  // back to profile page
+}
+</script>
+
+</body>
+  </html>
