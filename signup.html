@@ -2,16 +2,27 @@
 <html>
 <head>
   <title>Create Account</title>
-  <script type="module" src="signup.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Create Your Account</h2>
+<div class="form-box">
+  <h2>Create Account</h2>
 
-<input id="email" type="text" placeholder="Your Email"><br><br>
-<input id="password" type="password" placeholder="Password"><br><br>
+  <input id="name" type="text" placeholder="Your Name">
+  <input id="age" type="number" placeholder="Your Age">
 
-<button id="signupBtn">Create Account</button>
+  <div id="gf-box">
+    <input id="girlfriend" type="text" placeholder="Girlfriend Name">
+  </div>
 
+  <div id="bank-box" style="display:none;">
+    <input id="balance" type="number" placeholder="Bank Balance">
+  </div>
+
+  <button onclick="createAccount()">Save</button>
+</div>
+
+<script src="signup.js"></script>
 </body>
 </html>
