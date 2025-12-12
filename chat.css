@@ -16,21 +16,16 @@ body {
   padding: 15px;
 }
 
-h2 {
-  text-align: center;
-  color: #075e54;
-  margin-bottom: 10px;
-}
-
 .chat-box {
-  height: 400px;
-  overflow-y: scroll;
+  height: 420px;
+  overflow-y: auto;
   border: 2px solid #ddd;
-  padding: 10px;
   background: #f7f7f7;
+  padding: 10px;
   border-radius: 10px;
 }
 
+/* WhatsApp bubble style */
 .message {
   max-width: 70%;
   padding: 8px 12px;
@@ -39,19 +34,54 @@ h2 {
   animation: glow 1.2s infinite alternate;
 }
 
+/* outgoing */
 .my-message {
   background: #dcf8c6;
   margin-left: auto;
   border-bottom-right-radius: 0;
 }
 
+/* incoming */
 .other-message {
-  background: #fff;
+  background: white;
   margin-right: auto;
   border-bottom-left-radius: 0;
 }
 
+/* glowing animation */
 @keyframes glow {
-  from { box-shadow: 0 0 8px rgba(0,255,0,0.3); }
-  to   { box-shadow: 0 0 15px rgba(0,255,0,0.6); }
+  from { box-shadow: 0 0 8px rgba(0,255,0,0.2); }
+  to   { box-shadow: 0 0 15px rgba(0,255,0,0.5); }
 }
+
+/* input section */
+.input-area {
+  display: flex;
+  margin-top: 10px;
+  position: sticky;
+  bottom: 0;
+}
+
+#messageInput {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #25d366;
+  border-radius: 10px;
+  animation: boxGlow 1.5s infinite alternate;
+}
+
+/* glowing input animation */
+@keyframes boxGlow {
+  from { box-shadow: 0 0 10px rgba(37,211,102,0.3); }
+  to   { box-shadow: 0 0 20px rgba(37,211,102,0.7); }
+}
+
+#sendBtn {
+  margin-left: 5px;
+  padding: 10px 15px;
+  background: #25d366;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+                                   }
