@@ -45,3 +45,18 @@ onSnapshot(collection(db, "messages"), (snapshot) => {
 
     chatBox.scrollTop = chatBox.scrollHeight;
 });
+document.getElementById("age").addEventListener("input", function () {
+    let age = parseInt(this.value);
+
+    if (age >= 25 && age <= 70) {
+        document.getElementById("girlfriendBox").style.display = "none";
+        document.getElementById("bankBox").style.display = "block";
+    } else {
+        document.getElementById("girlfriendBox").style.display = "block";
+        document.getElementById("bankBox").style.display = "none";
+    }
+});
+
+function saveProfile() {
+    alert("Profile Saved (Firebase later)");
+            }
