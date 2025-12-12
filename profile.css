@@ -1,21 +1,46 @@
 body {
   font-family: Arial;
   text-align: center;
-}
-
-.form-box {
-  width: 300px;
-  margin: auto;
+  margin: 0;
+  background: #ececec;
 }
 
 .cover-photo {
   width: 100%;
   height: 180px;
   background: linear-gradient(to right, #ff6a00, #ee0979);
+  background-size: cover;
+  background-position: center;
 }
 
 .profile-container {
-  margin-top: -50px;
+  margin-top: -60px;
+}
+
+.pentagon {
+  width: 140px;
+  height: 140px;
+  background: url('https://i.postimg.cc/02Qmwvhd/avatar.png') center/cover;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+  margin: auto;
+  border: 4px solid white;
+}
+
+input[type="file"] {
+  margin-top: 10px;
+}
+button {
+  padding: 8px 15px;
+  border: none;
+  background: #ff6a00;
+  color: white;
+  border-radius: 8px;
+  margin-top: 5px;
+  cursor: pointer;
+  }.cover-photo {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(to right, #ff6a00, #ee0979);
 }
 
 .pentagon {
@@ -25,3 +50,9 @@ body {
   clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0 38%);
   margin: auto;
 }
+
+.form-box {
+  width: 300px;
+  margin: auto;
+  text-align: center;
+  }
