@@ -1,36 +1,43 @@
-// Firebase loaded from firebase.js
+import { db } from "./script.js";
+import { ref, push, onChildAdded } 
+  from "https://www.gstatic.com/script.js/10.8.0/firebase-database.js";
 
-const db = firebase.database();
-const chatBox = document.getElementById("chatBox");
-const sendBtn = document.getElementById("sendBtn");
-const msgInput = document.getElementById("messageInput");
+// Elements
+const box = document.getElementById("chatBox");
+const input = document.getElementById("msgInput");
+const btn = document.getElementById("sendBtn");
 
-// Send message
-sendBtn.onclick = () => {
-    let msg = msgInput.value.trim();
-    if (msg === "") return;
+// SEND Message
+btn.addEventListener("click", () => {
+  let text = input.value.trim();
+  if (text === "") return;
 
-    db.ref("messages").push({
-        text: msg,
-        from: "user",
-        time: Date.now()
-    });
+  push(ref(db, "messages"), {
+    name: localStorage.getItem("username") || "User",
+    dp: localStorage.getItem("userDP") || "default_dp.png",
+    msg: text,
+    time: Date.now()
+  });
 
-    msgInput.value = "";
-};
+  input.value = "";
+});
 
-// Load messages
-db.ref("messages").on("child_added", (snapshot) => {
-    let data = snapshot.val();
+// LOAD Messages live
+onChildAdded(ref(db, "messages"), (snapshot) => {
+  let data = snapshot.val();
 
-    let div = document.createElement("div");
-    div.classList.add("message");
+  let bubble = document.createElement("div");
+  bubble.classList.add("message");
 
-    if (data.from === "user") div.classList.add("my-message");
-    else div.classList.add("other-message");
+  // small DP icon + name
+  bubble.innerHTML = `
+      <div class="msg-header">
+           <img src="${data.dp}" class="icon">
+           <span class="uname">${data.name}</span>
+      </div>
+      <div class="msg-text">${data.msg}</div>
+  `;
 
-    div.innerText = data.text;
-    chatBox.appendChild(div);
-
-    chatBox.scrollTop = chatBox.scrollHeight;
+  box.appendChild(bubble);
+  box.scrollTop = box.scrollHeight;
 });
