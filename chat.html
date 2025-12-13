@@ -1,26 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Global Chat Room</title>
-  <link rel="stylesheet" href="chat.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="chat.css">
 </head>
 <body>
 
-<div class="chat-container">
+<div class="chat-box" id="chatBox"></div>
 
-  <h2>🌍 Global Chat Room</h2>
-
-  <div id="chatBox" class="chat-box"></div>
-
-  <div class="input-area">
-      <input id="messageInput" type="text" placeholder="Write a message..." />
-      <button id="sendBtn">Send</button>
-  </div>
-
+<div class="input-bar">
+  <input id="msg" placeholder="Message লিখো..." />
+  <button onclick="send()">➤</button>
 </div>
 
-<script type="module" src="script.js"></script>
-
+<script type="module" src="chat.js"></script>
 </body>
 </html>
