@@ -1,6 +1,6 @@
-import { db, ref, set } from './firebase.js'; // তোমার firebase.js ফাইলের নাম অনুযায়ী ঠিক করো
+import { db, ref, set } from './firebase.js'; //
 
-const form = document.getElementById("profileForm");
+const form = document.getElementById("edit_profile.html");
 
 form.addEventListener("submit", function(e) {
   e.preventDefault(); // Prevent form refresh
