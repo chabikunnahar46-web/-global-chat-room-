@@ -1,6 +1,6 @@
-import { db } from "./script.js";
+import { db } from "./firebase.js";
 import { ref, push, onChildAdded } 
-  from "https://www.gstatic.com/script.js/10.8.0/firebase-database.js";
+  from "https://www.gstatic.com/firebase.js/10.8.0/firebase-database.js";
 
 // Elements
 const box = document.getElementById("chatBox");
