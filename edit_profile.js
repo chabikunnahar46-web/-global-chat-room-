@@ -1,26 +1,34 @@
-function checkAge() {
-  let age = document.getElementById("age").value;
-  let gfBox = document.getElementById("gfBox");
+const avatarInput = document.getElementById("avatarInput");
+const coverInput = document.getElementById("coverInput");
 
-  if (age <= 24 && age != "") {
-    gfBox.style.display = "block";
-  } else {
-    gfBox.style.display = "none";
-  }
+avatarInput.onchange = () => previewImage(avatarInput, "avatarPreview");
+coverInput.onchange = () => previewImage(coverInput, "coverPreview");
+
+function previewImage(input, imgId) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    document.getElementById(imgId).src = reader.result;
+  };
+  reader.readAsDataURL(file);
 }
 
 function saveProfile() {
-  let data = {
-    name: document.getElementById("name").value,
-    age: document.getElementById("age").value,
-    girlfriend: document.getElementById("girlfriend")?.value || "",
-    work: document.getElementById("work").value,
-    school: document.getElementById("school").value,
-    live: document.getElementById("live").value,
-    bank: document.getElementById("bank").value
+  const age = Number(ageInput.value);
+
+  const data = {
+    name: name.value,
+    age: age,
+    city: city.value,
+    work: work.value,
+    school: school.value,
+    girlfriend: age <= 24 ? girlfriend.value : "",
+    balance: age >= 25 ? balance.value : "",
+    avatar: avatarPreview.src,
+    cover: coverPreview.src
   };
 
-  localStorage.setItem("userProfile", JSON.stringify(data));
-  alert("Profile Saved!");
-  window.location.href = "profile.html";
+  localStorage.setItem("profile", JSON.stringify(data));
+  alert("Profile Saved");
 }
