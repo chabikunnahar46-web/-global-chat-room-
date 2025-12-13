@@ -1,58 +1,97 @@
-body {
-  font-family: Arial;
-  text-align: center;
-  margin: 0;
-  background: #ececec;
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f0f2f5;
 }
 
-.cover-photo {
-  width: 100%;
-  height: 180px;
-  background: linear-gradient(to right, #ff6a00, #ee0979);
-  background-size: cover;
-  background-position: center;
+/* Cover */
+.cover{
+  height:200px;
+  background:#ccc;
+  position:relative;
+}
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.cover-btn{
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  border:none;
+  padding:6px;
+  border-radius:50%;
 }
 
-.profile-container {
-  margin-top: -60px;
+/* Profile */
+.profile-box{
+  text-align:center;
+  margin-top:-60px;
+}
+.avatar{
+  width:120px;
+  height:120px;
+  margin:auto;
+  clip-path: polygon(
+    25% 6%, 75% 6%,
+    100% 50%, 75% 94%,
+    25% 94%, 0 50%
+  );
+  background:#fff;
+  position:relative;
+}
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.avatar span{
+  position:absolute;
+  bottom:5px;
+  right:5px;
+  background:white;
+  padding:4px;
+  border-radius:50%;
 }
 
-.pentagon {
-  width: 140px;
-  height: 140px;
-  background: url('https://i.postimg.cc/02Qmwvhd/avatar.png') center/cover;
-  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0 38%);
-  margin: auto;
-  border: 4px solid white;
+/* Buttons */
+.btns{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+}
+.blue{
+  background:#1877f2;
+  color:white;
+  border:none;
+  padding:8px 14px;
+  border-radius:6px;
+}
+.gray{
+  background:#e4e6eb;
+  border:none;
+  padding:8px 12px;
+  border-radius:6px;
 }
 
-input[type="file"] {
-  margin-top: 10px;
+/* Tabs */
+.tabs{
+  display:flex;
+  justify-content:space-around;
+  background:white;
+  margin-top:10px;
 }
-button {
-  padding: 8px 15px;
-  border: none;
-  background: #ff6a00;
-  color: white;
-  border-radius: 8px;
-  margin-top: 5px;
-  cursor: pointer;
-  }.cover-photo {
-  width: 100%;
-  height: 180px;
-  background: linear-gradient(to right, #ff6a00, #ee0979);
+.tabs span{
+  padding:10px;
+}
+.active{
+  border-bottom:3px solid #1877f2;
 }
 
-.pentagon {
-  width: 120px;
-  height: 120px;
-  background: url('https://i.postimg.cc/02Qmwvhd/avatar.png') center/cover;
-  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0 38%);
-  margin: auto;
+/* About */
+.about{
+  background:white;
+  padding:15px;
+  margin-top:8px;
 }
-
-.form-box {
-  width: 300px;
-  margin: auto;
-  text-align: center;
-  }
