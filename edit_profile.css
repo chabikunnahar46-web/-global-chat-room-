@@ -1,0 +1,30 @@
+body {
+  font-family: Arial;
+  background: #f0f2f5;
+}
+
+.edit-box {
+  width: 330px;
+  background: white;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #1877f2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  margin-top: 10px;
+}
