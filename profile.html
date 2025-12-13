@@ -1,39 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Your Profile</title>
-  <link rel="stylesheet" href="profile.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile</title>
+<link rel="stylesheet" href="profile.css">
 </head>
 <body>
 
-<div class="cover-photo"></div>
-
-<div class="profile-container">
-  <div class="pentagon"></div>
-
-  <h2 id="pName"></h2>
-  <p id="pAge"></p>
-  <p id="pLocation"></p>
-  <p id="pSchool"></p>
-
-  <br>
-  <a href="edit-profile.html">
-    <button>Edit Profile</button>
-  </a>
+<!-- Cover -->
+<div class="cover">
+  <img id="coverImg">
+  <input type="file" id="coverInput" hidden>
+  <button class="cover-btn" onclick="coverInput.click()">📷</button>
 </div>
 
-<script>
-let data = JSON.parse(localStorage.getItem("userProfile"));
+<!-- Profile -->
+<div class="profile-box">
+  <div class="avatar">
+    <img id="dpImg">
+    <input type="file" id="dpInput" hidden>
+    <span onclick="dpInput.click()">📷</span>
+  </div>
 
-if(data){
-  document.getElementById("pName").innerHTML = "Name: " + data.name;
-  document.getElementById("pAge").innerHTML = "Age: " + data.age;
-  document.getElementById("pLocation").innerHTML = "Location: " + data.location;
-  document.getElementById("pSchool").innerHTML = "School: " + data.school;
-}else{
-  document.getElementById("pName").innerHTML = "No profile data found";
-}
-</script>
+  <h2>Chabikun Nahar</h2>
+  <p>395 friends</p>
 
+  <div class="btns">
+    <button class="blue">Add to story</button>
+    <button class="gray">Edit profile</button>
+    <button class="gray">⋯</button>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <span class="active">Posts</span>
+  <span>Photos</span>
+  <span>Reels</span>
+</div>
+
+<div class="about">
+  <p>See your About info</p>
+</div>
+
+<script src="profile.js"></script>
 </body>
-</html>
+      </html>
