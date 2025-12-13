@@ -2,34 +2,32 @@
 <html>
 <head>
   <title>Edit Profile</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="profile.css">
 </head>
 <body>
 
-<h2>Edit Your Profile</h2>
+<h2>Edit Profile</h2>
 
-<div class="form-box">
-  <input id="name" type="text" placeholder="Your Name"><br><br>
-  <input id="age" type="number" placeholder="Your Age"><br><br>
-  <input id="location" type="text" placeholder="Where do you live?"><br><br>
-  <input id="school" type="text" placeholder="School / College Name"><br><br>
-  <input id="🏦 balance"type="text"buttonbutton onclick="saveData()">Save</button>
-</div>
+<form id="editForm">
 
-<script>
-function saveData(){
-  let profile = {
-    name : document.getElementById("name").value,
-    age : document.getElementById("age").value,
-    location : document.getElementById("location").value,
-    school : document.getElementById("school").value
-  }
+  <input type="text" id="name" placeholder="Your Name"><br><br>
 
-  localStorage.setItem("userProfile", JSON.stringify(profile));
-  alert("Profile Saved!");
-  window.location.href = "profile.html";  // back to profile page
-}
-</script>
+  <input type="number" id="age" placeholder="Your Age" oninput="checkAge()"><br><br>
 
+  <div id="gfBox" style="display:none;">
+    <input type="text" id="girlfriend" placeholder="Girlfriend Name"><br><br>
+  </div>
+
+  <input type="text" id="work" placeholder="Work / Profession"><br><br>
+  <input type="text" id="school" placeholder="School / College"><br><br>
+  <input type="text" id="live" placeholder="Live in (City, Country)"><br><br>
+
+  <input type="number" id="bank" placeholder="Bank Balance"><br><br>
+
+  <button type="button" onclick="saveProfile()">Save</button>
+
+</form>
+
+<script src="edit_profile.js"></script>
 </body>
-  </html>
+</html>
