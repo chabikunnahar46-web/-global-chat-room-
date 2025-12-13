@@ -1,33 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Edit Profile</title>
-  <link rel="stylesheet" href="profile.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="edit-profile.css">
 </head>
 <body>
 
-<h2>Edit Profile</h2>
+<header class="top-bar">
+  <span onclick="history.back()">←</span>
+  <h3>Edit Profile</h3>
+</header>
 
-<form id="editForm">
-
-  <input type="text" id="name" placeholder="Your Name"><br><br>
-
-  <input type="number" id="age" placeholder="Your Age" oninput="checkAge()"><br><br>
-
-  <div id="gfBox" style="display:none;">
-    <input type="text" id="girlfriend" placeholder="Girlfriend Name"><br><br>
+<div class="section">
+  <h4>Profile picture</h4>
+  <div class="avatar-box">
+    <img id="avatarPreview" src="https://i.postimg.cc/02Qmwvhd/avatar.png">
+    <label class="edit-btn">
+      Edit
+      <input type="file" id="avatarInput" hidden>
+    </label>
   </div>
+</div>
 
-  <input type="text" id="work" placeholder="Work / Profession"><br><br>
-  <input type="text" id="school" placeholder="School / College"><br><br>
-  <input type="text" id="live" placeholder="Live in (City, Country)"><br><br>
+<div class="section">
+  <h4>Cover photo</h4>
+  <div class="cover-box">
+    <img id="coverPreview">
+    <label class="edit-btn">
+      Edit
+      <input type="file" id="coverInput" hidden>
+    </label>
+  </div>
+</div>
 
-  <input type="number" id="bank" placeholder="Bank Balance"><br><br>
+<div class="section">
+  <h4>Details</h4>
 
-  <button type="button" onclick="saveProfile()">Save</button>
+  <input id="name" placeholder="Your name">
+  <input id="age" type="number" placeholder="Age">
 
-</form>
+  <input id="city" placeholder="Current City">
+  <input id="work" placeholder="Work">
+  <input id="school" placeholder="School">
 
-<script src="edit_profile.js"></script>
+  <input id="girlfriend" placeholder="Girlfriend name">
+  <input id="balance" placeholder="Bank balance">
+
+  <button onclick="saveProfile()">Save</button>
+</div>
+
+<script src="edit-profile.js"></script>
 </body>
-</html>
+    </html>
