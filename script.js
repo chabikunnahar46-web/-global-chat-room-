@@ -1,62 +1,18 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+// Firebase CDN ব্যবহার করলে script ট্যাগে এগুলো থাকবে
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, push, onChildAdded } 
+  from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-// Your Firebase Config
 const firebaseConfig = {
-    apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
-    authDomain: "global-chat-75f38.firebaseapp.com",
-    projectId: "global-chat-75f38",
-    storageBucket: "global-chat-75f38.firebasestorage.app",
-    messagingSenderId: "682790896070",
-    appId: "1:682790896070:web:5d142dec99031730f072c7"
+  apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
+  authDomain: "global-chat-75f38.firebaseapp.com",
+  databaseURL: "https://global-chat-75f38-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  projectId: "global-chat-75f38",
+  storageBucket: "global-chat-75f38.firebasestorage.app",
+  messagingSenderId: "682790896070",
+  appId: "1:682790896070:web:5d142dec99031730f072c7",
+  measurementId: "G-X9H4HM2010"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-const chatBox = document.getElementById("chatBox");
-const sendBtn = document.getElementById("sendBtn");
-const input = document.getElementById("messageInput");
-
-// Send Message
-sendBtn.onclick = async () => {
-    const text = input.value.trim();
-    if (text === "") return;
-
-    await addDoc(collection(db, "messages"), {
-        text: text,
-        time: new Date()
-    });
-
-    input.value = "";
-};
-
-// Load Messages Live
-onSnapshot(collection(db, "messages"), (snapshot) => {
-    chatBox.innerHTML = "";
-
-    snapshot.forEach((doc) => {
-        const data = doc.data();
-        const msg = document.createElement("div");
-        msg.classList.add("message", "other-message");
-        msg.textContent = data.text;
-        chatBox.appendChild(msg);
-    });
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-});
-document.getElementById("age").addEventListener("input", function () {
-    let age = parseInt(this.value);
-
-    if (age >= 25 && age <= 70) {
-        document.getElementById("girlfriendBox").style.display = "none";
-        document.getElementById("bankBox").style.display = "block";
-    } else {
-        document.getElementById("girlfriendBox").style.display = "block";
-        document.getElementById("bankBox").style.display = "none";
-    }
-});
-
-function saveProfile() {
-    alert("Profile Saved (Firebase later)");
-            }
+export const app = initializeApp(firebaseConfig);
+export const db = getDatabase(app);
