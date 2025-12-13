@@ -1,34 +1,37 @@
-const avatarInput = document.getElementById("avatarInput");
-const coverInput = document.getElementById("coverInput");
+import { db, ref, set } from './firebase.js'; // তোমার firebase.js ফাইলের নাম অনুযায়ী ঠিক করো
 
-avatarInput.onchange = () => previewImage(avatarInput, "avatarPreview");
-coverInput.onchange = () => previewImage(coverInput, "coverPreview");
+const form = document.getElementById("profileForm");
 
-function previewImage(input, imgId) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    document.getElementById(imgId).src = reader.result;
-  };
-  reader.readAsDataURL(file);
-}
+form.addEventListener("submit", function(e) {
+  e.preventDefault(); // Prevent form refresh
 
-function saveProfile() {
-  const age = Number(ageInput.value);
+  const name = document.getElementById("name").value;
+  const age = document.getElementById("age").value;
+  const city = document.getElementById("city").value;
+  const work = document.getElementById("work").value;
+  const school = document.getElementById("school").value;
+  const girlfriend = document.getElementById("girlfriend").value;
+  const balance = document.getElementById("balance").value;
 
-  const data = {
-    name: name.value,
-    age: age,
-    city: city.value,
-    work: work.value,
-    school: school.value,
-    girlfriend: age <= 24 ? girlfriend.value : "",
-    balance: age >= 25 ? balance.value : "",
-    avatar: avatarPreview.src,
-    cover: coverPreview.src
-  };
+  // Generate a unique ID for each profile
+  const profileId = Date.now();
 
-  localStorage.setItem("profile", JSON.stringify(data));
-  alert("Profile Saved");
-}
+  set(ref(db, 'profiles/' + profileId), {
+    name,
+    age,
+    city,
+    work,
+    school,
+    girlfriend,
+    balance,
+    createdAt: new Date().toISOString()
+  })
+  .then(() => {
+    alert("Profile saved successfully!");
+    form.reset(); // Clear the form
+  })
+  .catch((error) => {
+    console.error("Error saving profile: ", error);
+    alert("Failed to save profile.");
+  });
+});
