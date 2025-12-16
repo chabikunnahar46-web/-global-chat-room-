@@ -73,7 +73,27 @@
       <option>Singing</option>
       <option>Coding</option>
     </select>
+    
+<select id="skill" onchange="changeInput()">
+  <option value="">Select your skill</option>
+  <option value="Writing">✍ Writing</option>
+  <option value="Drawing">🎨 Drawing</option>
+  <option value="Singing">🎤 Singing</option>
+  <option value="Photography">📸 Photography</option>
+  <option value="Coding">💻 Coding</option>
+</select>
 
+<!-- TEXT -->
+<textarea id="textInput" placeholder="Write your skill..." style="display:none"></textarea>
+
+<!-- IMAGE -->
+<input type="file" id="imageInput" accept="image/*" style="display:none">
+
+<!-- AUDIO -->
+<input type="file" id="audioInput" accept="audio/*" style="display:none">
+
+<!-- LINK -->
+<input type="url" id="linkInput" placeholder="Paste your link" style="display:none">
     <textarea id="desc" placeholder="Describe your skill in one line"></textarea>
 
     <button onclick="addSkill()">Submit Skill</button>
