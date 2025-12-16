@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add My Skill – Skills Zone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: #0f172a;
+      padding: 30px;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    select, textarea, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: none;
+      height: 80px;
+    }
+
+    button {
+      background: #22c55e;
+      color: #000;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .success {
+      margin-top: 15px;
+      text-align: center;
+      color: #22c55e;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <h1>🎯 Add My Skill</h1>
+
+    <select id="skill">
+      <option value="">Select your skill</option>
+      <option>Writing</option>
+      <option>Drawing</option>
+      <option>Singing</option>
+      <option>Coding</option>
+      <option>Photography</option>
+    </select>
+
+    <textarea id="desc" placeholder="Describe your skill in one line"></textarea>
+
+    <button onclick="addSkill()">Submit Skill</button>
+
+    <div class="success" id="success">
+      ✅ Skill submitted successfully!
+    </div>
+  </div>
+
+  <script>
+    function addSkill() {
+      const skill = document.getElementById("skill").value;
+      const desc = document.getElementById("desc").value;
+
+      if (skill === "" || desc === "") {
+        alert("Please select a skill and write description");
+        return;
+      }
+
+      // Fake submit (today)
+      document.getElementById("success").style.display = "block";
+
+      // Clear form
+      document.getElementById("skill").value = "";
+      document.getElementById("desc").value = "";
+    }
+  </script>
+
+</body>
+  </html>
