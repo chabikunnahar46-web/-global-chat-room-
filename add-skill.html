@@ -81,7 +81,7 @@
     <button onclick="addSkill()">Submit Skill</button>
 
     <div class="success" id="success">
-      ✅ Skill submitted successfully!
+      ✅ Skill submitted successfully! Redirecting...
     </div>
   </div>
 
@@ -95,14 +95,15 @@
         return;
       }
 
-      // Fake submit (today)
+      // Show success
       document.getElementById("success").style.display = "block";
 
-      // Clear form
-      document.getElementById("skill").value = "";
-      document.getElementById("desc").value = "";
+      // Auto redirect to competition page
+      setTimeout(() => {
+        window.location.href = "competition-hub.html";
+      }, 1500);
     }
   </script>
 
 </body>
-  </html>
+    </html>
