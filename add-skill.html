@@ -1,163 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Add My Skill – Skills Zone</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Add My Skill – Skills Zone</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #020617;
-      color: #e5e7eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #020617;
+  color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
 
-    .box {
-      background: #0f172a;
-      padding: 30px;
-      border-radius: 14px;
-      width: 100%;
-      max-width: 400px;
-    }
+.box {
+  background: #0f172a;
+  padding: 30px;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 400px;
+}
 
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-    select, textarea, button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 12px;
-      border-radius: 8px;
-      border: none;
-      font-size: 14px;
-    }
+select, textarea, input, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+}
 
-    textarea {
-      resize: none;
-      height: 80px;
-    }
+textarea {
+  resize: none;
+  height: 80px;
+}
 
-    button {
-      background: #22c55e;
-      color: #000;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
+button {
+  background: #22c55e;
+  color: #000;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-    .success {
-      margin-top: 15px;
-      text-align: center;
-      color: #22c55e;
-      display: none;
-    }
-  </style>
+input[type="file"] {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+.hidden {
+  display: none;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="box">
-    <h1>🎯 Add My Skill</h1>
+<div class="box">
+  <h1>🎯 Add My Skill</h1>
 
-    <select id="skill">
-      <option value="">Select your skill</option>
-      <option>Writing</option>
-      <option>Drawing</option>
-      <option>Singing</option>
-      <option>Coding</option>
-    </select>
-    
-<select id="skill" onchange="changeInput()">
-  <option value="">Select your skill</option>
-  <option value="Writing">✍ Writing</option>
-  <option value="Drawing">🎨 Drawing</option>
-  <option value="Singing">🎤 Singing</option>
-  <option value="Photography">📸 Photography</option>
-  <option value="Coding">💻 Coding</option>
-</select>
+  <select id="skill" onchange="changeInput()">
+    <option value="">Select your skill</option>
+    <option value="Writing">✍ Writing</option>
+    <option value="Drawing">🎨 Drawing</option>
+    <option value="Singing">🎤 Singing</option>
+    <option value="Photography">📸 Photography</option>
+    <option value="Coding">💻 Coding</option>
+  </select>
 
-<!-- TEXT -->
-<textarea id="textInput" placeholder="Write your skill..." style="display:none"></textarea>
+  <!-- Writing -->
+  <textarea id="textInput" class="hidden" placeholder="Write your skill..."></textarea>
 
-<!-- IMAGE -->
-<input type="file" id="imageInput" accept="image/*" style="display:none">
+  <!-- Image -->
+  <input type="file" id="imageInput" class="hidden" accept="image/*">
 
-<!-- AUDIO -->
-<input type="file" id="audioInput" accept="audio/*" style="display:none">
+  <!-- Audio -->
+  <input type="file" id="audioInput" class="hidden" accept="audio/*">
 
-<!-- LINK -->
-<input type="url" id="linkInput" placeholder="Paste your link" style="display:none">
-    <textarea id="desc" placeholder="Describe your skill in one line"></textarea>
+  <!-- Coding -->
+  <input type="url" id="linkInput" class="hidden" placeholder="Paste your project link">
 
-    <button onclick="addSkill()">Submit Skill</button>
+  <button onclick="addSkill()">Submit Skill</button>
+</div>
 
-    <div class="success" id="success">
-      ✅ Submitted! Redirecting...
-    </div>
-  </div>
+<script>
+const textInput = document.getElementById("textInput");
+const imageInput = document.getElementById("imageInput");
+const audioInput = document.getElementById("audioInput");
+const linkInput = document.getElementById("linkInput");
 
-  <script>
-    function changeInput() {
+function changeInput() {
   const skill = document.getElementById("skill").value;
 
-  // hide all
-  textInput.style.display = "none";
-  imageInput.style.display = "none";
-  audioInput.style.display = "none";
-  linkInput.style.display = "none";
+  textInput.classList.add("hidden");
+  imageInput.classList.add("hidden");
+  audioInput.classList.add("hidden");
+  linkInput.classList.add("hidden");
 
   if (skill === "Writing") {
-    textInput.style.display = "block";
-  } 
+    textInput.classList.remove("hidden");
+  }
   else if (skill === "Drawing" || skill === "Photography") {
-    imageInput.style.display = "block";
-  } 
+    imageInput.classList.remove("hidden");
+  }
   else if (skill === "Singing") {
-    audioInput.style.display = "block";
-  } 
+    audioInput.classList.remove("hidden");
+  }
   else if (skill === "Coding") {
-    linkInput.style.display = "block";
+    linkInput.classList.remove("hidden");
   }
+}
+
+function addSkill() {
+  const skill = document.getElementById("skill").value;
+  let content = "";
+
+  if (skill === "Writing") content = textInput.value;
+  if (skill === "Drawing" || skill === "Photography") content = imageInput.files[0]?.name;
+  if (skill === "Singing") content = audioInput.files[0]?.name;
+  if (skill === "Coding") content = linkInput.value;
+
+  if (!skill || !content) {
+    alert("Please complete your submission");
+    return;
   }
-    const savedSkill = localStorage.getItem("selectedSkill");
-    if (savedSkill) {
-      document.getElementById("skill").value = savedSkill;
-    }
 
-    function addSkill() {
-      const skill = document.getElementById("skill").value;
-      const desc = document.getElementById("desc").value;
+  const submissions = JSON.parse(localStorage.getItem("submissions")) || [];
 
-      if (!skill || !desc) {
-        alert("Fill all fields");
-        return;
-      }
+  submissions.push({
+    skill,
+    content,
+    reactions: { love: 0, funny: 0, wow: 0 }
+  });
 
-      const submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-
-      const newEntry = {
-        skill,
-        desc,
-        score: Math.floor(Math.random() * 40) + 60
-      };
-
-      submissions.push(newEntry);
-      localStorage.setItem("submissions", JSON.stringify(submissions));
-
-      document.getElementById("success").style.display = "block";
-
-      setTimeout(() => {
-        window.location.href = "compitition-hub.html";
-      }, 400);
-    }
-  </script>
+  localStorage.setItem("submissions", JSON.stringify(submissions));
+  window.location.href = "compitition-hub.html";
+}
+</script>
 
 </body>
 </html>
