@@ -86,6 +86,12 @@
   </div>
 
   <script>
+    // auto select skill from competition page
+    const savedSkill = localStorage.getItem("selectedSkill");
+    if (savedSkill) {
+      document.getElementById("skill").value = savedSkill;
+    }
+
     function addSkill() {
       const skill = document.getElementById("skill").value;
       const desc = document.getElementById("desc").value;
@@ -95,15 +101,13 @@
         return;
       }
 
-      // Show success
       document.getElementById("success").style.display = "block";
 
-      // Auto redirect to competition page
       setTimeout(() => {
-      window.location.href = "/-global-chat-room-/compitition-hub.html";
-      }, 300);
+        window.location.href = "compitition-hub.html";
+      }, 400);
     }
   </script>
 
 </body>
-    </html>
+</html>
