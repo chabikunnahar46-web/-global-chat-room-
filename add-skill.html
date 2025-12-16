@@ -6,58 +6,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #020617;
-  color: #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#020617;
+  color:#e5e7eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
+.box{
+  background:#0f172a;
+  padding:30px;
+  border-radius:14px;
+  width:100%;
+  max-width:400px;
+}
+h1{text-align:center}
+select,textarea,input,button{
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  border-radius:8px;
+  border:none;
+}
+button{
+  background:#22c55e;
+  font-size:16px;
+  cursor:pointer;
+}
+.hidden{display:none}
+
+.record-box{
+  background:#020617;
+  border:1px dashed #22c55e;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+  margin-top:12px;
 }
 
-.box {
-  background: #0f172a;
-  padding: 30px;
-  border-radius: 14px;
-  width: 100%;
-  max-width: 400px;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-select, textarea, input, button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 12px;
-  border-radius: 8px;
-  border: none;
-  font-size: 14px;
-}
-
-textarea {
-  resize: none;
-  height: 80px;
-}
-
-button {
-  background: #22c55e;
-  color: #000;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-input[type="file"] {
-  background: #020617;
-  color: #e5e7eb;
-}
-
-.hidden {
-  display: none;
+.record-btn{
+  background:#ef4444;
+  color:#fff;
+  margin-top:10px;
 }
 </style>
 </head>
@@ -65,86 +58,91 @@ input[type="file"] {
 <body>
 
 <div class="box">
-  <h1>🎯 Add My Skill</h1>
+<h1>🎯 Add My Skill</h1>
 
-  <select id="skill" onchange="changeInput()">
-    <option value="">Select your skill</option>
-    <option value="Writing">✍ Writing</option>
-    <option value="Drawing">🎨 Drawing</option>
-    <option value="Singing">🎤 Singing</option>
-    <option value="Photography">📸 Photography</option>
-    <option value="Coding">💻 Coding</option>
-  </select>
+<select id="skill" onchange="changeInput()">
+  <option value="">Select your skill</option>
+  <option value="Writing">✍ Writing</option>
+  <option value="Drawing">🎨 Drawing</option>
+  <option value="Singing">🎤 Singing</option>
+</select>
 
-  <!-- Writing -->
-  <textarea id="textInput" class="hidden" placeholder="Write your skill..."></textarea>
+<!-- Writing -->
+<textarea id="textInput" class="hidden" placeholder="Write your skill..."></textarea>
 
-  <!-- Image -->
-  <input type="file" id="imageInput" class="hidden" accept="image/*">
+<!-- Drawing -->
+<input type="file" id="imageInput" class="hidden" accept="image/*">
 
-  <!-- Audio -->
-  <input type="file" id="audioInput" class="hidden" accept="audio/*">
+<!-- Singing -->
+<div id="singingBox" class="hidden">
 
-  <!-- Coding -->
-  <input type="url" id="linkInput" class="hidden" placeholder="Paste your project link">
+  🔊 <b>Upload Audio File</b>
+  <input type="file" id="audioFile" accept="audio/*">
 
-  <button onclick="addSkill()">Submit Skill</button>
+  <div class="record-box">
+    🎤 <b>Record Your Voice</b>
+    <button class="record-btn" onclick="startRecord()">Start Recording</button>
+    <button class="record-btn hidden" id="stopBtn" onclick="stopRecord()">Stop</button>
+    <audio id="audioPreview" controls class="hidden"></audio>
+  </div>
+
+</div>
+
+<button onclick="submitSkill()">Submit Skill</button>
 </div>
 
 <script>
-const textInput = document.getElementById("textInput");
-const imageInput = document.getElementById("imageInput");
-const audioInput = document.getElementById("audioInput");
-const linkInput = document.getElementById("linkInput");
+let recorder, audioBlob;
 
-function changeInput() {
-  const skill = document.getElementById("skill").value;
+function changeInput(){
+  const skill=document.getElementById("skill").value;
+  document.getElementById("textInput").classList.add("hidden");
+  document.getElementById("imageInput").classList.add("hidden");
+  document.getElementById("singingBox").classList.add("hidden");
 
-  textInput.classList.add("hidden");
-  imageInput.classList.add("hidden");
-  audioInput.classList.add("hidden");
-  linkInput.classList.add("hidden");
-
-  if (skill === "Writing") {
-    textInput.classList.remove("hidden");
-  }
-  else if (skill === "Drawing" || skill === "Photography") {
-    imageInput.classList.remove("hidden");
-  }
-  else if (skill === "Singing") {
-    audioInput.classList.remove("hidden");
-  }
-  else if (skill === "Coding") {
-    linkInput.classList.remove("hidden");
-  }
+  if(skill==="Writing") textInput.classList.remove("hidden");
+  if(skill==="Drawing") imageInput.classList.remove("hidden");
+  if(skill==="Singing") singingBox.classList.remove("hidden");
 }
 
-function addSkill() {
-  const skill = document.getElementById("skill").value;
-  let content = "";
+async function startRecord(){
+  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  recorder=new MediaRecorder(stream);
+  let chunks=[];
+  recorder.ondataavailable=e=>chunks.push(e.data);
+  recorder.onstop=()=>{
+    audioBlob=new Blob(chunks,{type:"audio/webm"});
+    const url=URL.createObjectURL(audioBlob);
+    const audio=document.getElementById("audioPreview");
+    audio.src=url;
+    audio.classList.remove("hidden");
+  };
+  recorder.start();
+  document.getElementById("stopBtn").classList.remove("hidden");
+}
 
-  if (skill === "Writing") content = textInput.value;
-  if (skill === "Drawing" || skill === "Photography") content = imageInput.files[0]?.name;
-  if (skill === "Singing") content = audioInput.files[0]?.name;
-  if (skill === "Coding") content = linkInput.value;
+function stopRecord(){
+  recorder.stop();
+  document.getElementById("stopBtn").classList.add("hidden");
+}
 
-  if (!skill || !content) {
-    alert("Please complete your submission");
+function submitSkill(){
+  const skill=document.getElementById("skill").value;
+  let content=null;
+
+  if(skill==="Writing") content=textInput.value;
+  if(skill==="Drawing") content=imageInput.files[0];
+  if(skill==="Singing") content=audioBlob || audioFile.files[0];
+
+  if(!skill || !content){
+    alert("Complete your submission");
     return;
   }
 
-  const submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-
-  submissions.push({
-    skill,
-    content,
-    reactions: { love: 0, funny: 0, wow: 0 }
-  });
-
-  localStorage.setItem("submissions", JSON.stringify(submissions));
-  window.location.href = "compitition-hub.html";
+  alert("🎉 Skill submitted!");
+  window.location.href="compitition-hub.html";
 }
 </script>
 
 </body>
-</html>
+  </html>
