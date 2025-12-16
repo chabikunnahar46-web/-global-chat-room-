@@ -1,88 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Skills Zone – Competition Hub</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Skills Zone – Live Competition</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #020617;
-      color: #e5e7eb;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #020617;
+  color: #e5e7eb;
+}
 
-    header {
-      text-align: center;
-      padding: 40px 20px;
-      background: #0f172a;
-    }
+header {
+  text-align: center;
+  padding: 40px 20px;
+  background: #0f172a;
+}
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
 
-    .list {
-      background: #0f172a;
-      border-radius: 14px;
-      padding: 20px;
-    }
+.card {
+  background: #0f172a;
+  border-radius: 14px;
+  padding: 15px;
+  margin-top: 15px;
+}
 
-    .item {
-      display: flex;
-      justify-content: space-between;
-      padding: 12px;
-      margin-top: 10px;
-      background: #020617;
-      border-radius: 10px;
-      font-size: 14px;
-    }
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    .rank {
-      font-weight: bold;
-      color: #22c55e;
-    }
-  </style>
+.rank {
+  font-weight: bold;
+  color: #22c55e;
+}
+
+.actions button {
+  margin-left: 8px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.vote {
+  background: #22c55e;
+  color: #000;
+}
+
+.share {
+  background: #2563eb;
+  color: #fff;
+}
+
+small {
+  opacity: 0.7;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>🏆 Live Competition Rankings</h1>
-  <p>Top submitted skills this week</p>
+  <h1>🏆 Skills Zone – Live Competition</h1>
+  <p>Vote & share your favourite talent</p>
 </header>
 
-<div class="container">
-  <div class="list" id="list">
-    <!-- submissions here -->
-  </div>
-</div>
+<div class="container" id="list"></div>
 
 <script>
-  const list = document.getElementById("list");
-  let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+const list = document.getElementById("list");
 
-  submissions.sort((a, b) => b.score - a.score);
+function render() {
+  list.innerHTML = "";
+
+  submissions.sort((a, b) => b.votes - a.votes);
 
   if (submissions.length === 0) {
     list.innerHTML = "<p>No submissions yet</p>";
+    return;
   }
 
   submissions.forEach((item, index) => {
     list.innerHTML += `
-      <div class="item">
-        <div>
-          <span class="rank">#${index + 1}</span>
-          ${item.skill} – ${item.desc}
+      <div class="card">
+        <div class="row">
+          <div>
+            <span class="rank">#${index + 1}</span>
+            <b>${item.skill}</b><br>
+            <small>${item.desc}</small>
+          </div>
+
+          <div class="actions">
+            <button class="vote" onclick="vote(${index})">
+              ❤️ ${item.votes}
+            </button>
+            <button class="share" onclick="share(${index})">
+              🔗 Share
+            </button>
+          </div>
         </div>
-        <div>⭐ ${item.score}</div>
       </div>
     `;
   });
+}
+
+function vote(i) {
+  submissions[i].votes++;
+  localStorage.setItem("submissions", JSON.stringify(submissions));
+  render();
+}
+
+function share(i) {
+  const text = `Vote for my skill on Skills Zone!\n\n${submissions[i].skill} – ${submissions[i].desc}`;
+  const url = window.location.href;
+
+  if (navigator.share) {
+    navigator.share({ text, url });
+  } else {
+    navigator.clipboard.writeText(text + " " + url);
+    alert("Link copied! Share with friends ❤️");
+  }
+}
+
+render();
 </script>
 
 </body>
-  </html>
+</html>
