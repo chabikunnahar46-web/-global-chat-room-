@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Skills Zone – Live Competition</title>
+  <title>Skills Zone – Competition Hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -15,90 +15,74 @@
 
     header {
       text-align: center;
-      padding: 50px 20px;
-      background: linear-gradient(135deg, #020617, #0f172a);
-    }
-
-    header h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      opacity: 0.9;
+      padding: 40px 20px;
+      background: #0f172a;
     }
 
     .container {
       max-width: 900px;
       margin: auto;
-      padding: 30px 20px;
+      padding: 20px;
     }
 
-    .live-comp {
+    .list {
       background: #0f172a;
-      padding: 30px;
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      border-radius: 14px;
+      padding: 20px;
     }
 
-    .comp-list button {
-      width: 100%;
-      padding: 16px;
-      margin-top: 14px;
+    .item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px;
+      margin-top: 10px;
       background: #020617;
-      color: #e5e7eb;
-      border: 1px solid #1f2933;
-      border-radius: 12px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .comp-list button:hover {
-      background: #22c55e;
-      color: #000;
-    }
-
-    footer {
-      text-align: center;
-      padding: 25px;
+      border-radius: 10px;
       font-size: 14px;
-      opacity: 0.6;
-      margin-top: 40px;
+    }
+
+    .rank {
+      font-weight: bold;
+      color: #22c55e;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>🏆 Skills Zone – Live Competition</h1>
-    <p>🎉 Weekly Competition is Live! Submit your skill now</p>
-  </header>
+<header>
+  <h1>🏆 Live Competition Rankings</h1>
+  <p>Top submitted skills this week</p>
+</header>
 
-  <div class="container">
-    <section class="live-comp">
-      <h2>Choose Your Competition</h2>
-
-      <div class="comp-list">
-        <button onclick="goSkill('Writing')">✍ Writing Competition</button>
-        <button onclick="goSkill('Drawing')">🎨 Drawing Competition</button>
-        <button onclick="goSkill('Singing')">🎤 Singing Competition</button>
-      </div>
-    </section>
+<div class="container">
+  <div class="list" id="list">
+    <!-- submissions here -->
   </div>
+</div>
 
-  <footer>
-    © 2025 Skills Zone
-  </footer>
+<script>
+  const list = document.getElementById("list");
+  let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
 
-  <script>
-    function goSkill(skillName) {
-      localStorage.setItem("selectedSkill", skillName);
-      window.location.href = "add-skill.html";
-    }
-  </script>
+  submissions.sort((a, b) => b.score - a.score);
+
+  if (submissions.length === 0) {
+    list.innerHTML = "<p>No submissions yet</p>";
+  }
+
+  submissions.forEach((item, index) => {
+    list.innerHTML += `
+      <div class="item">
+        <div>
+          <span class="rank">#${index + 1}</span>
+          ${item.skill} – ${item.desc}
+        </div>
+        <div>⭐ ${item.score}</div>
+      </div>
+    `;
+  });
+</script>
 
 </body>
-</html>
+  </html>
