@@ -23,7 +23,6 @@
       border-radius: 14px;
       width: 100%;
       max-width: 400px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
 
     h1 {
@@ -73,7 +72,6 @@
       <option>Drawing</option>
       <option>Singing</option>
       <option>Coding</option>
-      <option>Photography</option>
     </select>
 
     <textarea id="desc" placeholder="Describe your skill in one line"></textarea>
@@ -81,12 +79,11 @@
     <button onclick="addSkill()">Submit Skill</button>
 
     <div class="success" id="success">
-      ✅ Skill submitted successfully! Redirecting...
+      ✅ Submitted! Redirecting...
     </div>
   </div>
 
   <script>
-    // auto select skill from competition page
     const savedSkill = localStorage.getItem("selectedSkill");
     if (savedSkill) {
       document.getElementById("skill").value = savedSkill;
@@ -96,10 +93,21 @@
       const skill = document.getElementById("skill").value;
       const desc = document.getElementById("desc").value;
 
-      if (skill === "" || desc === "") {
-        alert("Please select a skill and write description");
+      if (!skill || !desc) {
+        alert("Fill all fields");
         return;
       }
+
+      const submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+
+      const newEntry = {
+        skill,
+        desc,
+        score: Math.floor(Math.random() * 40) + 60
+      };
+
+      submissions.push(newEntry);
+      localStorage.setItem("submissions", JSON.stringify(submissions));
 
       document.getElementById("success").style.display = "block";
 
