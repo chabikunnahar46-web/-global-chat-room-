@@ -104,6 +104,28 @@
   </div>
 
   <script>
+    function changeInput() {
+  const skill = document.getElementById("skill").value;
+
+  // hide all
+  textInput.style.display = "none";
+  imageInput.style.display = "none";
+  audioInput.style.display = "none";
+  linkInput.style.display = "none";
+
+  if (skill === "Writing") {
+    textInput.style.display = "block";
+  } 
+  else if (skill === "Drawing" || skill === "Photography") {
+    imageInput.style.display = "block";
+  } 
+  else if (skill === "Singing") {
+    audioInput.style.display = "block";
+  } 
+  else if (skill === "Coding") {
+    linkInput.style.display = "block";
+  }
+  }
     const savedSkill = localStorage.getItem("selectedSkill");
     if (savedSkill) {
       document.getElementById("skill").value = savedSkill;
