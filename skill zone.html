@@ -13,11 +13,10 @@
       color: #e5e7eb;
     }
 
-    /* Hero Section */
     .hero {
       text-align: center;
       padding: 80px 20px;
-      background: linear-gradient(135deg, #020617, #020617);
+      background: #020617;
     }
 
     .hero h1 {
@@ -41,14 +40,12 @@
       color: #000;
     }
 
-    /* Container */
     .container {
       max-width: 1100px;
       margin: auto;
       padding: 40px 20px;
     }
 
-    /* Live Activity */
     .activity {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -64,7 +61,6 @@
       font-size: 16px;
     }
 
-    /* Why Join */
     .why {
       margin-top: 80px;
       text-align: center;
@@ -87,15 +83,6 @@
       border-radius: 12px;
     }
 
-    .card span {
-      font-size: 36px;
-    }
-
-    .card h3 {
-      margin-top: 15px;
-      margin-bottom: 10px;
-    }
-
     footer {
       text-align: center;
       padding: 30px;
@@ -112,53 +99,36 @@
     <h1>Show Your Skill. Get Recognized.</h1>
     <p>Join global talent competitions. 100% free.</p>
     <button onclick="joinFree()">Join Free</button>
-    <script>
-  
   </section>
 
   <div class="container">
 
-    <!-- Live Activity -->
     <section class="activity">
       <div class="box">🟢 <b>23 people chatting now</b></div>
       <div class="box">🏆 <b>This week’s top talent</b><br>Poetry • Score 92</div>
       <div class="box">⭐ <b>Latest skill submissions</b><br>Writing • Drawing • Singing</div>
     </section>
 
-    <!-- Why Join -->
     <section class="why">
       <h2>Why Join Skills Zone?</h2>
 
       <div class="cards">
-        <div class="card">
-          <span>🏅</span>
-          <h3>Win Badges & Certificates</h3>
-          <p>Show proof of your talent publicly.</p>
-        </div>
-
-        <div class="card">
-          <span>🌍</span>
-          <h3>Get Global Visibility</h3>
-          <p>Your skill gets seen by real people.</p>
-        </div>
-
-        <div class="card">
-          <span>🤝</span>
-          <h3>Connect With Skilled People</h3>
-          <p>Chat, learn, and grow together.</p>
-        </div>
+        <div class="card">🏅 Win Badges & Certificates</div>
+        <div class="card">🌍 Get Global Visibility</div>
+        <div class="card">🤝 Connect With Skilled People</div>
       </div>
     </section>
 
   </div>
 
-  <footer>
-    © 2025 Skills Zone
-  </footer>
-      <\script>
-function joinFree() {
-    window.location.href = "compitition.html";
-  }
-    </script>
+  <footer>© 2025 Skills Zone</footer>
+
+  <!-- JavaScript -->
+  <script>
+    function joinFree() {
+      window.location.href = "compitition.html";
+    }
+  </script>
+
 </body>
   </html>
