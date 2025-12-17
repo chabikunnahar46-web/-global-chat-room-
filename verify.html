@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Verify Certificate</title>
+<style>
+body{background:#020617;color:#fff;font-family:Arial;text-align:center;padding:50px}
+input,button{padding:10px;margin-top:10px}
+</style>
+</head>
+
+<body>
+
+<h2>Verify Skills Zone Certificate</h2>
+<input id="vid" placeholder="Enter Certificate ID">
+<br>
+<button onclick="verify()">Verify</button>
+
+<p id="result"></p>
+
+<script src="data/certificates.js"></script>
+<script>
+function verify(){
+  const id = vid.value.trim();
+  const cert = certificates.find(c => c.id === id);
+  result.innerHTML = cert
+    ? `✅ Valid Certificate<br>${cert.name} - ${cert.skill} (${cert.rank})`
+    : "❌ Certificate not found";
+}
+</script>
+
+</body>
+</html>
