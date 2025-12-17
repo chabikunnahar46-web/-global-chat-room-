@@ -261,13 +261,24 @@ function render(){
       <img src="${item.avatar}">
       <a href="profile.html?user=${item.username}">@${item.username}</a>
     </div>
-
     <div class="actions">
-      <button onclick="like(${i})">❤️ ${item.likes}</button>
-      <button onclick="love(${i})">💖 ${item.loves}</button>
-      <button onclick="Send Gift
+  <button onclick="like(${i})">❤️ ${item.likes}</button>
+  <button onclick="love(${i})">💖 ${item.loves}</button>
+  <button onclick="shareTalent()">🤝 Share</button>
 
-      <button onclick="shareTalent()">🤝 Share</button>
+  <!-- 🎁 SEND GIFT -->
+  <a class="gift-btn" 
+     href="gift.html?to=${item.username}">
+     🎁 Send Real Gift
+  </a>
+</div>.gift-btn{
+  text-decoration:none;
+  background:#f59e0b;
+  color:#000;
+  padding:6px 12px;
+  border-radius:16px;
+  font-size:13px;
+  }
     </div>
    </div>
   `;
