@@ -58,37 +58,9 @@ button{
 <body>
 
 <div class="box">
-<h1>🎯 Add My Skill</h1>
-
-<select id="skill" onchange="changeInput()">
-  <option value="">Select your skill</option>
-  <option value="Writing">✍ Writing</option>
-  <option value="Drawing">🎨 Drawing</option>
-  <option value="Singing">🎤 Singing</option>
-</select>
-
-<!-- Writing -->
-<textarea id="textInput" class="hidden" placeholder="Write your skill..."></textarea>
-
-<!-- Drawing -->
-  <input type="text" id="titleInput" placeholder="Enter title (e.g. Pencil Portrait)" style="display:none">
-
-<textarea id="descInput" placeholder="Describe your drawing..." style="display:none"></textarea>
-
-<input type="file" id="imageInput" accept="image/*" style="display:none">
-
-<!-- Singing -->
-<div id="singingBox" class="hidden">
-
-  🔊 <b>Upload Audio File</b>
-  <input type="file" id="audioFile" accept="audio/*">
-
-  <div class="record-box">
-    🎤 <b>Record Your Voice</b>
-    <button class="record-btn" onclick="startRecord()">Start Recording</button>
-    <button class="record-btn hidden" id="stopBtn" onclick="stopRecord()">Stop</button>
-    <audio id="audioPreview" controls class="hidden"></audio>
+s="hidden"></audio>
   </div>
+  
 
 </div>
 
@@ -106,7 +78,7 @@ function changeInput(){
 
   if(skill==="Writing") textInput.classList.remove("hidden");
   if(skill==="Drawing") imageInput.classList.remove("hidden");
-  if(skill==="Singing") singingBox.classList.remove("hidden");
+  if(skill==="SingtextInputing") singingBox.classList.remove("hidden");
 }
 
 async function startRecord(){
@@ -146,7 +118,39 @@ function submitSkill(){
   alert("🎉 Skill submitted!");
   window.location.href="compitition-hub.html";
 }
-</script>
+</scaudi
 
 </body>
-  </html>
+<script>
+const skillSelect = document.getElementById("skillSelect");
+const titleInput = document.getElementById("titleInput");
+const descInput = document.getElementById("descInput");
+const imageInput = document.getElementById("imageInput");
+const audioInput = document.getElementById("audioInput");
+
+function changeInput() {
+  const skill = skillSelect.value;
+
+  // hide all
+  titleInput.style.display = "none";
+  descInput.style.display = "none";
+  imageInput.style.display = "none";
+  audioInput.style.display = "none";
+
+  if (skill === "Drawing") {
+    titleInput.style.display = "block";
+    descInput.style.display = "block";
+    imageInput.style.display = "block";
+  }
+
+  if (skill === "Singing") {
+    titleInput.style.display = "block";
+    audioInput.style.display = "block";
+  }
+
+  if (skill === "Writing") {
+    titleInput.style.display = "block";
+    descInput.style.display = "block";
+  }
+}
+</script>t.removel>
