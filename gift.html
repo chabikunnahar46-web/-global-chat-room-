@@ -6,7 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{margin:0;font-family:Arial;background:#020617;color:#e5e7eb}
+body{
+ margin:0;
+ font-family:Arial, sans-serif;
+ background:#020617;
+ color:#e5e7eb;
+}
 
 /* HEADER */
 header{
@@ -14,9 +19,13 @@ header{
  background:#020617;
  position:sticky;
  top:0;
+ z-index:10;
  border-bottom:1px solid #1e293b;
 }
-header h2{text-align:center;margin:0}
+header h2{
+ text-align:center;
+ margin:0;
+}
 
 /* SEARCH */
 .search-box{
@@ -26,72 +35,63 @@ header h2{text-align:center;margin:0}
 }
 .search-box input{
  width:100%;
- padding:10px 14px;
- border-radius:20px;
+ padding:12px 16px;
+ border-radius:22px;
  border:none;
  background:#0f172a;
  color:#e5e7eb;
+ font-size:14px;
 }
 
 /* PRODUCTS */
 .products{
- max-width:900px;
+ max-width:1000px;
  margin:auto;
  padding:16px;
  display:grid;
  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
  gap:16px;
 }
+
+/* PRODUCT CARD */
 .product{
  background:#0f172a;
- border-radius:16px;
+ border-radius:18px;
  overflow:hidden;
+ box-shadow:0 6px 18px rgba(0,0,0,.4);
 }
 .product img{
  width:100%;
- height:160px;
+ height:170px;
  object-fit:cover;
 }
-.info{padding:12px}
-.price{color:#22c55e;font-weight:bold}
-.rating{font-size:13px;opacity:.9}
+.product .info{
+ padding:12px;
+}
+.product h4{
+ margin:0 0 6px;
+ font-size:15px;
+}
+.price{
+ color:#22c55e;
+ font-weight:bold;
+}
+.rating{
+ font-size:13px;
+ opacity:.85;
+ margin:4px 0;
+}
 .product button{
  width:100%;
- margin-top:8px;
- padding:8px;
+ margin-top:10px;
+ padding:10px;
  border:none;
- border-radius:14px;
- background:#f59e0b;
+ border-radius:16px;
+ background:linear-gradient(135deg,#f59e0b,#f97316);
+ color:#000;
+ font-size:14px;
  cursor:pointer;
 }
-
-/* MODAL */
-.modal{
- display:none;
- position:fixed;
- inset:0;
- background:rgba(0,0,0,.6);
- align-items:center;
- justify-content:center;
-}
-.modal-content{
- background:#0f172a;
- padding:20px;
- border-radius:16px;
- max-width:400px;
- width:90%;
-}
-.modal-content input,
-.modal-content textarea{
- width:100%;
- padding:10px;
- margin:6px 0;
- border-radius:10px;
- border:none;
- background:#020617;
- color:#e5e7eb;
-}
-.close{text-align:right;cursor:pointer}
 </style>
 </head>
 
@@ -99,87 +99,87 @@ header h2{text-align:center;margin:0}
 
 <header>
  <h2>🎁 Send Real Gift</h2>
+
  <div class="search-box">
-  <input id="search" placeholder="Search gifts..." oninput="renderProducts()">
+  <input 
+    type="text" 
+    id="search" 
+    placeholder="Search gifts like cake, flower, chocolate..." 
+    oninput="renderProducts()">
  </div>
 </header>
 
 <div class="products" id="products"></div>
 
-<!-- MODAL -->
-<div class="modal" id="buyModal">
- <div class="modal-content">
-  <div class="close" onclick="closeModal()">✖</div>
-  <h3 id="productName"></h3>
-
-  <input id="sender" placeholder="Your Name">
-  <input id="receiver" placeholder="Receiver Name">
-  <input id="phone" placeholder="Receiver Phone">
-  <textarea id="address" placeholder="Delivery Address"></textarea>
-  <textarea id="message" placeholder="Message ❤️"></textarea>
-
-  <button onclick="placeOrder()">Place Order</button>
- </div>
-</div>
-
 <script>
+/* PRODUCT LIST */
 const products=[
- {name:"Chocolate Cake",price:499,image:"https://picsum.photos/300/200?cake",rating:4.6,reviews:128},
- {name:"Red Rose Bouquet",price:299,image:"https://picsum.photos/300/200?flower",rating:4.4,reviews:92},
- {name:"Love Chocolate Box",price:349,image:"https://picsum.photos/300/200?chocolate",rating:4.7,reviews:201},
- {name:"Teddy Bear",price:399,image:"https://picsum.photos/300/200?teddy",rating:4.3,reviews:76}
+ {
+  name:"Chocolate Cake",
+  price:499,
+  image:"https://picsum.photos/400/300?cake",
+  rating:4.6,
+  reviews:128
+ },
+ {
+  name:"Red Rose Bouquet",
+  price:299,
+  image:"https://picsum.photos/400/300?flower",
+  rating:4.4,
+  reviews:92
+ },
+ {
+  name:"Love Chocolate Box",
+  price:349,
+  image:"https://picsum.photos/400/300?chocolate",
+  rating:4.7,
+  reviews:201
+ },
+ {
+  name:"Teddy Bear",
+  price:399,
+  image:"https://picsum.photos/400/300?teddy",
+  rating:4.3,
+  reviews:76
+ }
 ];
 
-let selectedProduct=null;
-
+/* RENDER PRODUCTS */
 function renderProducts(){
- const q=search.value.toLowerCase();
- productsBox.innerHTML="";
+ const q = document.getElementById("search").value.toLowerCase();
+ const box = document.getElementById("products");
+ box.innerHTML="";
+
  products.forEach(p=>{
   if(!p.name.toLowerCase().includes(q)) return;
-  productsBox.innerHTML+=`
+
+  box.innerHTML+=`
    <div class="product">
     <img src="${p.image}">
     <div class="info">
      <h4>${p.name}</h4>
      <div class="price">₹${p.price}</div>
-     <div class="rating">⭐ ${p.rating} (${p.reviews})</div>
-     <button onclick="buy('${p.name}')">Buy & Send</button>
+     <div class="rating">⭐ ${p.rating} (${p.reviews} reviews)</div>
+     <button onclick="buyProduct('${p.name}',${p.price})">
+       Buy & Send 🎁
+     </button>
     </div>
-   </div>`;
+   </div>
+  `;
  });
 }
 
-const productsBox=document.getElementById("products");
 renderProducts();
 
-function buy(name){
- selectedProduct=name;
- productName.innerText=name;
- buyModal.style.display="flex";
-}
-
-function closeModal(){
- buyModal.style.display="none";
-}
-
-function placeOrder(){
- const orders=JSON.parse(localStorage.getItem("giftOrders"))||[];
- orders.push({
-  product:selectedProduct,
-  sender:sender.value,
-  receiver:receiver.value,
-  phone:phone.value,
-  address:address.value,
-  message:message.value,
-  status:"Pending",
-  time:new Date().toLocaleString()
- });
- localStorage.setItem("giftOrders",JSON.stringify(orders));
- alert("✅ Order placed!");
- closeModal();
+/* BUY → CHECKOUT */
+function buyProduct(name, price){
+ localStorage.setItem(
+  "checkoutProduct",
+  JSON.stringify({name, price})
+ );
+ location.href = "checkout.html";
 }
 </script>
 
 </body>
-  </html>
+</html>
