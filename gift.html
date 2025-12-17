@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Send Real Gift</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#020617;
+  color:#e5e7eb;
+}
+.container{
+  max-width:500px;
+  margin:auto;
+  padding:20px;
+}
+h2{text-align:center}
+
+form{
+  background:#0f172a;
+  padding:20px;
+  border-radius:16px;
+}
+
+input,textarea,select{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:10px;
+  border:none;
+  background:#020617;
+  color:#e5e7eb;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  background:#22c55e;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
+  cursor:pointer;
+  margin-top:10px;
+}
+.success{
+  text-align:center;
+  color:#22c55e;
+  margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h2>🎁 Send Real Gift</h2>
+
+  <form id="giftForm">
+    <input type="text" id="sender" placeholder="Your Name" required>
+
+    <input type="text" id="receiver" placeholder="Receiver Name" required>
+
+    <input type="tel" id="phone" placeholder="Receiver Phone Number" required>
+
+    <textarea id="address" placeholder="Full Delivery Address" required></textarea>
+
+    <select id="giftType">
+      <option value="Cake">🎂 Cake</option>
+      <option value="Flower">🌸 Flower</option>
+      <option value="Chocolate">🍫 Chocolate</option>
+      <option value="Custom">🎁 Custom Gift</option>
+    </select>
+
+    <textarea id="message" placeholder="Message for loved one ❤️"></textarea>
+
+    <button type="submit">Place Gift Order</button>
+  </form>
+
+  <div class="success" id="success"></div>
+</div>
+
+<script>
+// get username from URL
+const params = new URLSearchParams(location.search);
+const toUser = params.get("to");
+
+if(toUser){
+  document.getElementById("receiver").value = toUser;
+}
+
+// submit order
+document.getElementById("giftForm").onsubmit = function(e){
+  e.preventDefault();
+
+  const order = {
+    sender: sender.value,
+    receiver: receiver.value,
+    phone: phone.value,
+    address: address.value,
+    gift: giftType.value,
+    message: message.value,
+    status: "Pending",
+    time: new Date().toLocaleString()
+  };
+
+  const orders =
+    JSON.parse(localStorage.getItem("giftOrders")) || [];
+
+  orders.push(order);
+  localStorage.setItem("giftOrders",JSON.stringify(orders));
+
+  document.getElementById("success").innerText =
+    "✅ Gift order placed successfully!";
+
+  this.reset();
+};
+</script>
+
+</body>
+  </html>
