@@ -1,75 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Profile</title>
-<link rel="stylesheet" href="profile.css">
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-  <!-- firebase.js -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
-  authDomain: "global-chat-75f38.firebaseapp.com",
-  databaseURL: "https://global-chat-75f38-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "global-chat-75f38",
-};
-
-export const app = initializeApp(firebaseConfig);
-export const db = getDatabase(app);
-export { ref, set, get, child };
-</script>
 <body>
 
-<!-- Cover -->
-<div class="cover">
-  <img id="coverImg">
-  <input type="file" id="coverInput" hidden>
-  <button class="cover-btn" onclick="coverInput.click()">📷</button>
-</div>
+<div class="profile-card">
 
-<!-- Profile -->
-<div class="profile-box">
-  <div class="avatar">
-    <img id="dpImg">
-    <input type="file" id="dpInput" hidden>
-    <span onclick="dpInput.click()">📷</span>
+  <!-- Cover -->
+  <div class="cover">
+    <span class="cover-text">My Profile</span>
+    <button class="camera">📷</button>
   </div>
 
+  <!-- Profile Image -->
+  <div class="avatar-wrap">
+    <img src="profile.jpg" class="avatar">
+  </div>
+
+  <!-- Info -->
   <h2>Chabikun Nahar</h2>
-  <p>395 friends</p>
+  <p class="username">@chabikunnahar46</p>
+  <p class="bio">Web Learner • Building something new 🚀</p>
 
-  <div class="btns">
-    <button class="blue">Add to story</button>
-    <button onclick="goEdit()">Edit profile</button>
-
-<script>
-function goEdit(){
-  window.location.href = "edit-profile.html";
-}
-</script>
-
-<script>
-function goEdit(){
-  window.location.href = "edit_profile.html";
-}
-</script>
+  <!-- Stats -->
+  <div class="stats">
+    <div><strong>24</strong><span>Posts</span></div>
+    <div><strong>395</strong><span>Friends</span></div>
+    <div><strong>120</strong><span>Likes</span></div>
   </div>
+
+  <!-- Buttons -->
+  <div class="actions">
+    <button class="primary">Edit Profile</button>
+    <button class="secondary">Add Story</button>
+  </div>
+
 </div>
 
-<!-- Tabs -->
-<div class="tabs">
-  <span class="active">Posts</span>
-  <span>Photos</span>
-  <span>Reels</span>
-</div>
-
-<div class="about">
-  <p>See your About info</p>
-</div>
-
-<script src="profile.js"></script>
 </body>
-      </html>
+</html>
