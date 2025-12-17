@@ -1,140 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Skills Zone – Live Competition</title>
+<title>Skills Zone – Talent Feed</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #020617;
-  color: #e5e7eb;
-}
-
-header {
-  text-align: center;
-  padding: 40px 20px;
-  background: #0f172a;
-}
-
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
-}
-
-.card {
-  background: #0f172a;
-  border-radius: 14px;
-  padding: 15px;
-  margin-top: 15px;
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.rank {
-  font-weight: bold;
-  color: #22c55e;
-}
-
-.actions button {
-  margin-left: 8px;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.vote {
-  background: #22c55e;
-  color: #000;
-}
-
-.share {
-  background: #2563eb;
-  color: #fff;
-}
-
-small {
-  opacity: 0.7;
-}
+body{margin:0;font-family:Arial;background:#020617;color:#e5e7eb}
+header{padding:16px;text-align:center;background:#020617;position:sticky;top:0;z-index:10;border-bottom:1px solid #1e293b}
+header h1{margin:0;font-size:22px}
+.tabs{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.tabs button{background:#0f172a;color:#e5e7eb;border:none;padding:8px 14px;border-radius:20px;cursor:pointer}
+.tabs button.active{background:#22c55e;color:#000}
+.feed{max-width:720px;margin:auto;padding:20px}
+.card{background:#0f172a;border-radius:14px;margin-bottom:20px;box-shadow:0 8px 20px rgba(0,0,0,.4);overflow:hidden}
+.card .badge{padding:8px 14px;font-size:13px;background:#020617;opacity:.8}
+.card img{width:100%;display:block}
+.card audio{width:100%}
+.card .text{padding:16px;font-size:15px;line-height:1.5}
+.actions{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-top:1px solid #1e293b}
+.actions button{background:none;border:none;color:#e5e7eb;cursor:pointer;font-size:15px}
+.rank{position:absolute;background:#22c55e;color:#000;padding:6px 10px;border-radius:0 0 12px 0;font-size:14px}
 </style>
 </head>
-
 <body>
-
 <header>
-  <h1>🏆 Skills Zone – Live Competition</h1>
-  <p>Vote & share your favourite talent</p>
-</header>
+<h1>🏆 Skills Zone – Talent Feed</h1>
+<div class="tabs">
+<button class="active" onclick="filterFeed('all')">🔥 All</button>
+<button onclick="filterFeed('Drawing')">🎨 Drawing</button>
+<button onclick="filterFeed('Singing')">🎤 Singing</button>
+<button onclick="filterFeed('Writing')">✍ Writing</button>
+</div>
+</header><div class="feed" id="feed"></div><script>
+const data = JSON.parse(localStorage.getItem('submissions')) || [];
+let current = 'all';
 
-<div class="container" id="list"></div>
-
-<script>
-let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-const list = document.getElementById("list");
-
-function render() {
-  list.innerHTML = "";
-
-  submissions.sort((a, b) => b.votes - a.votes);
-
-  if (submissions.length === 0) {
-    list.innerHTML = "<p>No submissions yet</p>";
-    return;
-  }
-
-  submissions.forEach((item, index) => {
-    list.innerHTML += `
-      <div class="card">
-        <div class="row">
-          <div>
-            <span class="rank">#${index + 1}</span>
-            <b>${item.skill}</b><br>
-            <small>${item.desc}</small>
-          </div>
-
-          <div class="actions">
-            <button class="vote" onclick="vote(${index})">
-              ❤️ ${item.votes}
-            </button>
-            <button class="share" onclick="share(${index})">
-              🔗 Share
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-  });
+function filterFeed(skill){
+ current = skill;
+ document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+ event.target.classList.add('active');
+ render();
 }
 
-function vote(i) {
-  submissions[i].votes++;
-  localStorage.setItem("submissions", JSON.stringify(submissions));
-  render();
+function vote(i){
+ data[i].votes++;
+ localStorage.setItem('submissions',JSON.stringify(data));
+ render();
 }
 
-function share(i) {
-  const text = `Vote for my skill on Skills Zone!\n\n${submissions[i].skill} – ${submissions[i].desc}`;
-  const url = window.location.href;
-
-  if (navigator.share) {
-    navigator.share({ text, url });
-  } else {
-    navigator.clipboard.writeText(text + " " + url);
-    alert("Link copied! Share with friends ❤️");
-  }
+function render(){
+ const feed=document.getElementById('feed');
+ feed.innerHTML='';
+ const sorted=[...data].sort((a,b)=>b.votes-a.votes);
+ sorted.forEach((item,i)=>{
+  if(current!=='all' && item.skill!==current) return;
+  let content='';
+  if(item.skill==='Drawing') content=`<img src="${item.image || ''}">`;
+  if(item.skill==='Singing') content=`<audio controls src="${item.audio || ''}"></audio>`;
+  if(item.skill==='Writing') content=`<div class="text">${item.text}</div>`;
+  feed.innerHTML+=`
+  <div class="card">
+   <div class="rank">#${i+1}</div>
+   <div class="badge">${item.skill}</div>
+   ${content}
+   <div class="actions">
+    <button onclick="vote(${i})">❤️ ${item.votes}</button>
+    <button onclick="navigator.share?navigator.share({text:'Vote my skill on Skills Zone'}) : alert('Copy link')">🔗 Share</button>
+   </div>
+  </div>`;
+ });
 }
-
 render();
-</script>
-
-</body>
+</script></body>
 </html>
