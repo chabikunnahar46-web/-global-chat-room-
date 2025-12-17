@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Skills Zone Certificate</title>
+
 <style>
 body{
   background:#020617;
@@ -10,31 +11,69 @@ body{
   justify-content:center;
   align-items:center;
   height:100vh;
-  color:#000;
+  font-family:Georgia, serif;
 }
-.cert{
-  background:#fff;
-  padding:40px;
-  width:600px;
-  border-radius:12px;
+.certificate{
+  background:#ffffff;
+  width:700px;
+  padding:50px;
+  border-radius:16px;
   text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
 }
-h1{color:#16a34a}
-.id{margin-top:20px;font-size:14px}
+h1{
+  color:#16a34a;
+  margin-bottom:10px;
+}
+.name{
+  font-size:28px;
+  font-weight:bold;
+  margin:15px 0;
+}
+.rank{
+  font-size:20px;
+  margin:10px 0;
+}
+.footer{
+  margin-top:30px;
+  font-size:14px;
+  color:#444;
+}
+.id{
+  margin-top:15px;
+  font-size:13px;
+  color:#555;
+}
 </style>
 </head>
 
 <body>
 
-<div class="cert" id="certBox">
+<div class="certificate">
   <h1>Certificate of Achievement</h1>
-  <p>This certifies that</p>
-  <h2 id="name"></h2>
-  <p>has achieved</p>
-  <h3 id="rank"></h3>
-  <p>in <b id="skill"></b> competition</p>
-  <p id="week"></p>
-  <div class="id">Certificate ID: <span id="cid"></span></div>
+
+  <p>This is to certify that</p>
+
+  <div class="name" id="name"></div>
+
+  <p>has successfully achieved</p>
+
+  <div class="rank" id="rank"></div>
+
+  <p>
+    in the <b id="skill"></b> Competition<br>
+    organized by <b>Skills Zone</b>
+  </p>
+
+  <p id="date"></p>
+
+  <div class="footer">
+    🏆 Skills Zone – Live Talent Platform
+  </div>
+
+  <div class="id">
+    Certificate ID: <span id="cid"></span>
+  </div>
 </div>
 
 <script src="data/certificates.js"></script>
@@ -44,14 +83,14 @@ const cert = certificates.find(c => c.id === id);
 
 if(cert){
   name.innerText = cert.name;
-  rank.innerText = cert.rank;
+  rank.innerText = cert.rank + " Position";
   skill.innerText = cert.skill;
-  week.innerText = cert.week + " • " + cert.date;
+  date.innerText = cert.week + " • " + cert.date;
   cid.innerText = cert.id;
 }else{
-  document.body.innerHTML = "<h2 style='color:white'>Invalid Certificate</h2>";
+  document.body.innerHTML="<h2 style='color:white'>Invalid Certificate</h2>";
 }
 </script>
 
 </body>
-</html>
+  </html>
