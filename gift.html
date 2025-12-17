@@ -135,8 +135,13 @@ header h2{text-align:center;margin:0}
 
 <div class="products" id="products"></div>
 
-<!-- BUY MODAL -->
-<div class="modal" id="buyModal">
+<button onclick="buy('${p.name}')">Buy</button>
+  <script>
+function buy(name){
+ localStorage.setItem("selectedProduct", name);
+ location.href="product.html";
+}
+  </script>
   <div class="modal-content">
     <div class="close" onclick="closeModal()">✖</div>
     <h3 id="productName"></h3>
