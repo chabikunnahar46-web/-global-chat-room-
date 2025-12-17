@@ -1,74 +1,238 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Skills Zone – Talent Feed</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-body{margin:0;font-family:Arial;background:#020617;color:#e5e7eb}
-header{padding:16px;text-align:center;background:#020617;position:sticky;top:0;z-index:10;border-bottom:1px solid #1e293b}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#020617;
+  color:#e5e7eb;
+}
+
+/* HEADER */
+header{
+  padding:16px;
+  text-align:center;
+  background:#020617;
+  position:sticky;
+  top:0;
+  z-index:10;
+  border-bottom:1px solid #1e293b;
+}
 header h1{margin:0;font-size:22px}
-.tabs{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap}
-.tabs button{background:#0f172a;color:#e5e7eb;border:none;padding:8px 14px;border-radius:20px;cursor:pointer}
-.tabs button.active{background:#22c55e;color:#000}
-.feed{max-width:720px;margin:auto;padding:20px}
-.card{background:#0f172a;border-radius:14px;margin-bottom:20px;box-shadow:0 8px 20px rgba(0,0,0,.4);overflow:hidden}
-.card .badge{padding:8px 14px;font-size:13px;background:#020617;opacity:.8}
+
+/* TABS */
+.tabs{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+.tabs button{
+  background:#0f172a;
+  color:#e5e7eb;
+  border:none;
+  padding:8px 14px;
+  border-radius:20px;
+  cursor:pointer;
+}
+.tabs button.active{
+  background:#22c55e;
+  color:#000;
+}
+
+/* FEED */
+.feed{
+  max-width:720px;
+  margin:auto;
+  padding:20px;
+}
+
+/* CARD */
+.card{
+  background:#0f172a;
+  border-radius:14px;
+  margin-bottom:20px;
+  box-shadow:0 8px 20px rgba(0,0,0,.4);
+  overflow:hidden;
+  position:relative;
+}
+
+/* RANK */
+.rank{
+  position:absolute;
+  top:0;
+  left:0;
+  background:#22c55e;
+  color:#000;
+  padding:6px 10px;
+  border-radius:0 0 12px 0;
+  font-size:14px;
+}
+
+/* BADGE */
+.badge{
+  padding:8px 14px;
+  font-size:13px;
+  background:#020617;
+  opacity:.85;
+}
+
+/* CONTENT */
 .card img{width:100%;display:block}
 .card audio{width:100%}
-.card .text{padding:16px;font-size:15px;line-height:1.5}
-.actions{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-top:1px solid #1e293b}
-.actions button{background:none;border:none;color:#e5e7eb;cursor:pointer;font-size:15px}
-.rank{position:absolute;background:#22c55e;color:#000;padding:6px 10px;border-radius:0 0 12px 0;font-size:14px}
+.text{padding:16px;font-size:15px;line-height:1.5}
+
+/* PROFILE (Channel-like) */
+.profile{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 16px;
+}
+.profile img{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+}
+.profile a{
+  color:#e5e7eb;
+  text-decoration:none;
+  font-size:14px;
+}
+
+/* ACTIONS */
+.actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 16px;
+  border-top:1px solid #1e293b;
+}
+.actions button{
+  background:none;
+  border:none;
+  color:#e5e7eb;
+  cursor:pointer;
+  font-size:15px;
+}
 </style>
 </head>
-<body>
-<header>
-<h1>🏆 Skills Zone – Talent Feed</h1>
-<div class="tabs">
-<button class="active" onclick="filterFeed('all')">🔥 All</button>
-<button onclick="filterFeed('Drawing')">🎨 Drawing</button>
-<button onclick="filterFeed('Singing')">🎤 Singing</button>
-<button onclick="filterFeed('Writing')">✍ Writing</button>
-</div>
-</header><div class="feed" id="feed"></div><script>
-const data = JSON.parse(localStorage.getItem('submissions')) || [];
-let current = 'all';
 
-function filterFeed(skill){
- current = skill;
+<body>
+
+<header>
+  <h1>🏆 Skills Zone – Talent Feed</h1>
+  <div class="tabs">
+    <button class="active" onclick="filterFeed('all',this)">🔥 All</button>
+    <button onclick="filterFeed('Drawing',this)">🎨 Drawing</button>
+    <button onclick="filterFeed('Singing',this)">🎤 Singing</button>
+    <button onclick="filterFeed('Writing',this)">✍ Writing</button>
+  </div>
+</header>
+
+<div class="feed" id="feed"></div>
+
+<script>
+// DEMO DATA (localStorage না থাকলে)
+let data = JSON.parse(localStorage.getItem('submissions')) || [
+ {
+  skill:"Drawing",
+  image:"https://picsum.photos/600/400",
+  username:"chabikun",
+  avatar:"https://i.pravatar.cc/100?img=5",
+  likes:12,
+  loves:4
+ },
+ {
+  skill:"Writing",
+  text:"This is my first short poem about dreams and hope.",
+  username:"talent_user",
+  avatar:"https://i.pravatar.cc/100?img=12",
+  likes:8,
+  loves:2
+ }
+];
+
+let current="all";
+
+function filterFeed(skill,btn){
+ current=skill;
  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
- event.target.classList.add('active');
+ btn.classList.add('active');
  render();
 }
 
-function vote(i){
- data[i].votes++;
+function like(i){
+ data[i].likes++;
+ save();
+}
+
+function love(i){
+ data[i].loves++;
+ save();
+}
+
+function shareTalent(){
+ if(navigator.share){
+   navigator.share({
+     title:"Skills Zone",
+     text:"এই ট্যালেন্টটা দেখো 🔥",
+     url:location.href
+   });
+ }else{
+   navigator.clipboard.writeText(location.href);
+   alert("Link copied!");
+ }
+}
+
+function save(){
  localStorage.setItem('submissions',JSON.stringify(data));
  render();
 }
 
 function render(){
- const feed=document.getElementById('feed');
- feed.innerHTML='';
- const sorted=[...data].sort((a,b)=>b.votes-a.votes);
+ const feed=document.getElementById("feed");
+ feed.innerHTML="";
+ const sorted=[...data].sort((a,b)=>(b.likes+b.loves*2)-(a.likes+a.loves*2));
+
  sorted.forEach((item,i)=>{
-  if(current!=='all' && item.skill!==current) return;
-  let content='';
-  if(item.skill==='Drawing') content=`<img src="${item.image || ''}">`;
-  if(item.skill==='Singing') content=`<audio controls src="${item.audio || ''}"></audio>`;
-  if(item.skill==='Writing') content=`<div class="text">${item.text}</div>`;
+  if(current!=="all" && item.skill!==current) return;
+
+  let content="";
+  if(item.skill==="Drawing") content=`<img src="${item.image}">`;
+  if(item.skill==="Singing") content=`<audio controls src="${item.audio||''}"></audio>`;
+  if(item.skill==="Writing") content=`<div class="text">${item.text}</div>`;
+
   feed.innerHTML+=`
-  <div class="card">
-   <div class="rank">#${i+1}</div>
-   <div class="badge">${item.skill}</div>
-   ${content}
-   <div class="actions">
-    <button onclick="vote(${i})">❤️ ${item.votes}</button>
-    <button onclick="navigator.share?navigator.share({text:'Vote my skill on Skills Zone'}) : alert('Copy link')">🔗 Share</button>
+   <div class="card">
+    <div class="rank">#${i+1}</div>
+    <div class="badge">${item.skill}</div>
+
+    ${content}
+
+    <div class="profile">
+      <img src="${item.avatar}">
+      <a href="profile.html?user=${item.username}">@${item.username}</a>
+    </div>
+
+    <div class="actions">
+      <button onclick="like(${i})">❤️ ${item.likes}</button>
+      <button onclick="love(${i})">💖 ${item.loves}</button>
+      <button onclick="shareTalent()">🤝 Share</button>
+    </div>
    </div>
-  </div>`;
+  `;
  });
 }
+
 render();
-</script></body>
-</html>
+</script>
+
+</body>
+ </html>
