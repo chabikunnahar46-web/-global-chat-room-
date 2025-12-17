@@ -24,6 +24,7 @@ body{
   max-width:400px;
 }
 h1{text-align:center}
+
 select,textarea,input,button{
   width:100%;
   padding:12px;
@@ -31,11 +32,13 @@ select,textarea,input,button{
   border-radius:8px;
   border:none;
 }
+
 button{
   background:#22c55e;
   font-size:16px;
   cursor:pointer;
 }
+
 .hidden{display:none}
 
 .record-box{
@@ -58,41 +61,73 @@ button{
 <body>
 
 <div class="box">
-s="hidden"></audio>
+  <h1>🎯 Add My Skill</h1>
+
+  <select id="skill" onchange="changeInput()">
+    <option value="">Select Skill</option>
+    <option value="Writing">✍ Writing</option>
+    <option value="Drawing">🎨 Drawing</option>
+    <option value="Singing">🎤 Singing</option>
+  </select>
+
+  <!-- Writing -->
+  <textarea id="textInput" class="hidden" placeholder="Write your content"></textarea>
+
+  <!-- Drawing -->
+  <input type="file" id="imageInput" class="hidden" accept="image/*">
+
+  <!-- Singing -->
+  <div id="singingBox" class="record-box hidden">
+    <p>🎙 Record your voice</p>
+    <button class="record-btn" onclick="startRecord()">Start Recording</button>
+    <button class="record-btn hidden" id="stopBtn" onclick="stopRecord()">Stop</button>
+    <audio id="audioPreview" class="hidden" controls></audio>
+
+    <p style="margin-top:10px">OR upload audio</p>
+    <input type="file" id="audioFile" accept="audio/*">
   </div>
-  
 
-</div>
-
-<button onclick="submitSkill()">Submit Skill</button>
+  <button onclick="submitSkill()">Submit Skill</button>
 </div>
 
 <script>
-let recorder, audioBlob;
+let recorder;
+let audioBlob = null;
 
 function changeInput(){
-  const skill=document.getElementById("skill").value;
+  const skill = document.getElementById("skill").value;
+
   document.getElementById("textInput").classList.add("hidden");
   document.getElementById("imageInput").classList.add("hidden");
   document.getElementById("singingBox").classList.add("hidden");
 
-  if(skill==="Writing") textInput.classList.remove("hidden");
-  if(skill==="Drawing") imageInput.classList.remove("hidden");
-  if(skill==="SingtextInputing") singingBox.classList.remove("hidden");
+  if(skill === "Writing"){
+    document.getElementById("textInput").classList.remove("hidden");
+  }
+
+  if(skill === "Drawing"){
+    document.getElementById("imageInput").classList.remove("hidden");
+  }
+
+  if(skill === "Singing"){
+    document.getElementById("singingBox").classList.remove("hidden");
+  }
 }
 
 async function startRecord(){
-  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-  recorder=new MediaRecorder(stream);
-  let chunks=[];
-  recorder.ondataavailable=e=>chunks.push(e.data);
-  recorder.onstop=()=>{
-    audioBlob=new Blob(chunks,{type:"audio/webm"});
-    const url=URL.createObjectURL(audioBlob);
-    const audio=document.getElementById("audioPreview");
-    audio.src=url;
+  const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+  recorder = new MediaRecorder(stream);
+  let chunks = [];
+
+  recorder.ondataavailable = e => chunks.push(e.data);
+  recorder.onstop = () => {
+    audioBlob = new Blob(chunks, { type:"audio/webm" });
+    const url = URL.createObjectURL(audioBlob);
+    const audio = document.getElementById("audioPreview");
+    audio.src = url;
     audio.classList.remove("hidden");
   };
+
   recorder.start();
   document.getElementById("stopBtn").classList.remove("hidden");
 }
@@ -103,54 +138,31 @@ function stopRecord(){
 }
 
 function submitSkill(){
-  const skill=document.getElementById("skill").value;
-  let content=null;
+  const skill = document.getElementById("skill").value;
 
-  if(skill==="Writing") content=textInput.value;
-  if(skill==="Drawing") content=imageInput.files[0];
-  if(skill==="Singing") content=audioBlob || audioFile.files[0];
+  let content = null;
+
+  if(skill === "Writing"){
+    content = document.getElementById("textInput").value;
+  }
+
+  if(skill === "Drawing"){
+    content = document.getElementById("imageInput").files[0];
+  }
+
+  if(skill === "Singing"){
+    content = audioBlob || document.getElementById("audioFile").files[0];
+  }
 
   if(!skill || !content){
-    alert("Complete your submission");
+    alert("❌ Please complete your submission");
     return;
   }
 
-  alert("🎉 Skill submitted!");
-  window.location.href="compitition-hub.html";
+  alert("🎉 Skill submitted successfully!");
+  window.location.href = "compitition-hub.html";
 }
-</scaudi
+</script>
 
 </body>
-<script>
-const skillSelect = document.getElementById("skillSelect");
-const titleInput = document.getElementById("titleInput");
-const descInput = document.getElementById("descInput");
-const imageInput = document.getElementById("imageInput");
-const audioInput = document.getElementById("audioInput");
-
-function changeInput() {
-  const skill = skillSelect.value;
-
-  // hide all
-  titleInput.style.display = "none";
-  descInput.style.display = "none";
-  imageInput.style.display = "none";
-  audioInput.style.display = "none";
-
-  if (skill === "Drawing") {
-    titleInput.style.display = "block";
-    descInput.style.display = "block";
-    imageInput.style.display = "block";
-  }
-
-  if (skill === "Singing") {
-    titleInput.style.display = "block";
-    audioInput.style.display = "block";
-  }
-
-  if (skill === "Writing") {
-    titleInput.style.display = "block";
-    descInput.style.display = "block";
-  }
-}
-</script>t.removel>
+    </html>
