@@ -15,22 +15,42 @@ body{
 
 /* HEADER */
 header{
-  padding:16px;
-  text-align:center;
+  padding:14px;
   background:#020617;
   position:sticky;
   top:0;
   z-index:10;
   border-bottom:1px solid #1e293b;
 }
-header h1{margin:0;font-size:22px}
+header h1{
+  margin:0;
+  text-align:center;
+  font-size:22px;
+}
+
+/* SEARCH */
+.search-box{
+  margin:12px auto 0;
+  max-width:720px;
+  display:flex;
+}
+.search-box input{
+  width:100%;
+  padding:10px 14px;
+  border-radius:20px;
+  border:none;
+  outline:none;
+  background:#0f172a;
+  color:#e5e7eb;
+  font-size:14px;
+}
 
 /* TABS */
 .tabs{
   display:flex;
   gap:10px;
   justify-content:center;
-  margin-top:10px;
+  margin-top:12px;
   flex-wrap:wrap;
 }
 .tabs button{
@@ -88,7 +108,7 @@ header h1{margin:0;font-size:22px}
 .card audio{width:100%}
 .text{padding:16px;font-size:15px;line-height:1.5}
 
-/* PROFILE (Channel-like) */
+/* PROFILE */
 .profile{
   display:flex;
   align-items:center;
@@ -128,6 +148,15 @@ header h1{margin:0;font-size:22px}
 
 <header>
   <h1>🏆 Skills Zone – Talent Feed</h1>
+
+  <!-- SEARCH BAR -->
+  <div class="search-box">
+    <input type="text" id="searchInput"
+      placeholder="Search talent, skill or creator..."
+      oninput="render()">
+  </div>
+
+  <!-- CATEGORY TABS -->
   <div class="tabs">
     <button class="active" onclick="filterFeed('all',this)">🔥 All</button>
     <button onclick="filterFeed('Drawing',this)">🎨 Drawing</button>
@@ -139,7 +168,7 @@ header h1{margin:0;font-size:22px}
 <div class="feed" id="feed"></div>
 
 <script>
-// DEMO DATA (localStorage না থাকলে)
+/* DEMO / LOCAL DATA */
 let data = JSON.parse(localStorage.getItem('submissions')) || [
  {
   skill:"Drawing",
@@ -151,7 +180,7 @@ let data = JSON.parse(localStorage.getItem('submissions')) || [
  },
  {
   skill:"Writing",
-  text:"This is my first short poem about dreams and hope.",
+  text:"Dreams grow when we share our talent with the world.",
   username:"talent_user",
   avatar:"https://i.pravatar.cc/100?img=12",
   likes:8,
@@ -198,11 +227,23 @@ function save(){
 
 function render(){
  const feed=document.getElementById("feed");
+ const q=document.getElementById("searchInput").value.toLowerCase();
  feed.innerHTML="";
- const sorted=[...data].sort((a,b)=>(b.likes+b.loves*2)-(a.likes+a.loves*2));
+
+ const sorted=[...data].sort(
+  (a,b)=>(b.likes+b.loves*2)-(a.likes+a.loves*2)
+ );
 
  sorted.forEach((item,i)=>{
   if(current!=="all" && item.skill!==current) return;
+
+  /* SEARCH FILTER */
+  const textMatch =
+    item.skill.toLowerCase().includes(q) ||
+    item.username.toLowerCase().includes(q) ||
+    (item.text && item.text.toLowerCase().includes(q));
+
+  if(q && !textMatch) return;
 
   let content="";
   if(item.skill==="Drawing") content=`<img src="${item.image}">`;
@@ -235,4 +276,4 @@ render();
 </script>
 
 </body>
- </html>
+  </html>
