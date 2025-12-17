@@ -8,114 +8,240 @@
 <style>
 body{
   margin:0;
-  font-family:Arial;
+  font-family:Arial, sans-serif;
   background:#020617;
   color:#e5e7eb;
 }
-.container{
-  max-width:500px;
-  margin:auto;
-  padding:20px;
-}
-h2{text-align:center}
 
-form{
+/* HEADER */
+header{
+  padding:14px;
+  background:#020617;
+  position:sticky;
+  top:0;
+  z-index:10;
+  border-bottom:1px solid #1e293b;
+}
+header h2{text-align:center;margin:0}
+
+/* SEARCH */
+.search-box{
+  max-width:720px;
+  margin:12px auto;
+  padding:0 12px;
+}
+.search-box input{
+  width:100%;
+  padding:10px 14px;
+  border-radius:20px;
+  border:none;
+  background:#0f172a;
+  color:#e5e7eb;
+}
+
+/* PRODUCT GRID */
+.products{
+  max-width:900px;
+  margin:auto;
+  padding:16px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:16px;
+}
+
+/* PRODUCT CARD */
+.product{
+  background:#0f172a;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 6px 16px rgba(0,0,0,.4);
+}
+.product img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+}
+.product .info{
+  padding:12px;
+}
+.product h4{
+  margin:0 0 6px;
+  font-size:15px;
+}
+.price{
+  color:#22c55e;
+  font-weight:bold;
+}
+.rating{
+  font-size:13px;
+  opacity:.9;
+  margin:4px 0;
+}
+.product button{
+  width:100%;
+  margin-top:8px;
+  padding:8px;
+  border:none;
+  border-radius:14px;
+  background:#f59e0b;
+  color:#000;
+  cursor:pointer;
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  align-items:center;
+  justify-content:center;
+}
+.modal-content{
   background:#0f172a;
   padding:20px;
   border-radius:16px;
+  max-width:400px;
+  width:90%;
 }
-
-input,textarea,select{
+.modal-content h3{margin-top:0}
+.modal-content input,
+.modal-content textarea{
   width:100%;
   padding:10px;
-  margin:8px 0;
+  margin:6px 0;
   border-radius:10px;
   border:none;
   background:#020617;
   color:#e5e7eb;
 }
-
-button{
-  width:100%;
-  padding:12px;
-  background:#22c55e;
-  border:none;
-  border-radius:14px;
-  font-size:16px;
+.close{
+  text-align:right;
   cursor:pointer;
-  margin-top:10px;
-}
-.success{
-  text-align:center;
-  color:#22c55e;
-  margin-top:15px;
+  opacity:.7;
 }
 </style>
 </head>
 
 <body>
-<div class="container">
+
+<header>
   <h2>🎁 Send Real Gift</h2>
 
-  <form id="giftForm">
-    <input type="text" id="sender" placeholder="Your Name" required>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search gifts like cake, flower, chocolate..." oninput="renderProducts()">
+  </div>
+</header>
 
-    <input type="text" id="receiver" placeholder="Receiver Name" required>
+<div class="products" id="products"></div>
 
-    <input type="tel" id="phone" placeholder="Receiver Phone Number" required>
+<!-- BUY MODAL -->
+<div class="modal" id="buyModal">
+  <div class="modal-content">
+    <div class="close" onclick="closeModal()">✖</div>
+    <h3 id="productName"></h3>
 
-    <textarea id="address" placeholder="Full Delivery Address" required></textarea>
+    <input id="sender" placeholder="Your Name">
+    <input id="receiver" placeholder="Receiver Name">
+    <input id="phone" placeholder="Receiver Phone">
+    <textarea id="address" placeholder="Delivery Address"></textarea>
+    <textarea id="message" placeholder="Message ❤️"></textarea>
 
-    <select id="giftType">
-      <option value="Cake">🎂 Cake</option>
-      <option value="Flower">🌸 Flower</option>
-      <option value="Chocolate">🍫 Chocolate</option>
-      <option value="Custom">🎁 Custom Gift</option>
-    </select>
-
-    <textarea id="message" placeholder="Message for loved one ❤️"></textarea>
-
-    <button type="submit">Place Gift Order</button>
-  </form>
-
-  <div class="success" id="success"></div>
+    <button onclick="placeOrder()">Place Order</button>
+  </div>
 </div>
 
 <script>
-// get username from URL
-const params = new URLSearchParams(location.search);
-const toUser = params.get("to");
+/* PRODUCT DATA */
+const products=[
+ {
+  name:"Chocolate Cake",
+  price:499,
+  image:"https://picsum.photos/300/200?cake",
+  rating:4.6,
+  reviews:128
+ },
+ {
+  name:"Red Rose Bouquet",
+  price:299,
+  image:"https://picsum.photos/300/200?flower",
+  rating:4.4,
+  reviews:92
+ },
+ {
+  name:"Love Chocolate Box",
+  price:349,
+  image:"https://picsum.photos/300/200?chocolate",
+  rating:4.7,
+  reviews:201
+ },
+ {
+  name:"Teddy Bear",
+  price:399,
+  image:"https://picsum.photos/300/200?teddy",
+  rating:4.3,
+  reviews:76
+ }
+];
 
-if(toUser){
-  document.getElementById("receiver").value = toUser;
+let selectedProduct=null;
+
+/* RENDER PRODUCTS */
+function renderProducts(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const box=document.getElementById("products");
+ box.innerHTML="";
+
+ products.forEach(p=>{
+  if(!p.name.toLowerCase().includes(q)) return;
+
+  box.innerHTML+=`
+   <div class="product">
+    <img src="${p.image}">
+    <div class="info">
+      <h4>${p.name}</h4>
+      <div class="price">₹${p.price}</div>
+      <div class="rating">⭐ ${p.rating} (${p.reviews} reviews)</div>
+      <button onclick="buy('${p.name}')">Buy & Send</button>
+    </div>
+   </div>
+  `;
+ });
 }
 
-// submit order
-document.getElementById("giftForm").onsubmit = function(e){
-  e.preventDefault();
+renderProducts();
 
-  const order = {
-    sender: sender.value,
-    receiver: receiver.value,
-    phone: phone.value,
-    address: address.value,
-    gift: giftType.value,
-    message: message.value,
-    status: "Pending",
-    time: new Date().toLocaleString()
-  };
+/* BUY FLOW */
+function buy(name){
+ selectedProduct=name;
+ document.getElementById("productName").innerText=name;
+ document.getElementById("buyModal").style.display="flex";
+}
 
-  const orders =
-    JSON.parse(localStorage.getItem("giftOrders")) || [];
+function closeModal(){
+ document.getElementById("buyModal").style.display="none";
+}
 
-  orders.push(order);
-  localStorage.setItem("giftOrders",JSON.stringify(orders));
+/* SAVE ORDER */
+function placeOrder(){
+ const order={
+  product:selectedProduct,
+  sender:sender.value,
+  receiver:receiver.value,
+  phone:phone.value,
+  address:address.value,
+  message:message.value,
+  status:"Pending",
+  time:new Date().toLocaleString()
+ };
 
-  document.getElementById("success").innerText =
-    "✅ Gift order placed successfully!";
+ const orders=JSON.parse(localStorage.getItem("giftOrders"))||[];
+ orders.push(order);
+ localStorage.setItem("giftOrders",JSON.stringify(orders));
 
-  this.reset();
-};
+ alert("🎉 Order placed successfully!");
+ closeModal();
+}
 </script>
 
 </body>
