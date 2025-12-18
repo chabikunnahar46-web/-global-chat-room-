@@ -1,39 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile</title>
+  <title>User Profile</title>
   <link rel="stylesheet" href="profile.css">
 </head>
 <body>
 
-  <!-- COVER PHOTO -->
+<div class="profile">
+
+  <!-- Cover Photo -->
   <div class="cover">
-    <img src="cover.jpg" alt="Cover Photo">
+    <img id="coverPreview" src="cover.jpg" alt="Cover">
+    <label class="cover-btn">
+      Change Cover
+      <input type="file" accept="image/*" onchange="loadCover(event)">
+    </label>
   </div>
 
-  <!-- PROFILE SECTION -->
-  <div class="profile-section">
+  <!-- Profile DP -->
+  <div class="dp-box">
+    <img id="dpPreview" src="dp.jpg" class="dp">
+    <span class="status-dot"></span>
 
-    <!-- PROFILE IMAGE -->
-    <div class="profile-img">
-      <img src="dp.jpg" alt="Profile Picture">
-      <span class="status-dot"></span>
-    </div>
-
-    <!-- NAME & BIO -->
-    <h2>Chabikun Nahar</h2>
-    <p class="username">@chabikunnahar46</p>
-    <p class="bio">Web Learner • Building Nexora 🚀</p>
-
-    <!-- BUTTONS -->
-    <div class="buttons">
-      <button class="edit">Edit Profile</button>
-      <button class="story">Add Story</button>
-    </div>
-
+    <label class="dp-btn">
+      📷
+      <input type="file" accept="image/*" onchange="loadDP(event)">
+    </label>
   </div>
 
+  <h2>Chabikun Nahar</h2>
+  <p class="username">@chabikunnahar46</p>
+
+</div>
+
+<script src="script.js"></script>
 </body>
-</html>
+    </html>
