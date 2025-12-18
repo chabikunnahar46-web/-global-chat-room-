@@ -2,122 +2,137 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile Page</title>
+  <title>Next‑Gen Viral Profile Page</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f0f2f5;
-    }
-    /* Cover */
-    .cover {
-      height: 200px;
-      background: linear-gradient(135deg, #ff0000, #1877f2);
-      position: relative;
-    }
-    /* Profile Info */
-    .profile-box {
-      max-width: 900px;
-      margin: -80px auto 0;
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    .profile-header {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: #ddd;
-      border: 4px solid #fff;
-    }
-    .profile-header h2 {
-      margin: 0;
-    }
-    .actions button {
-      margin-right: 10px;
-      padding: 8px 14px;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-    .follow { background: #1877f2; color: #fff; }
-    .subscribe { background: #ff0000; color: #fff; }/* Layout */
-.content {
-  max-width: 900px;
-  margin: 20px auto;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 20px;
-}
-.card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
+    :root{--brand:#1877f2;--bg:#f0f2f5;--card:#fff;--muted:#65676b}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg)}/* Cover */
+.cover{height:260px;background:linear-gradient(135deg,#4facfe,#00f2fe);position:relative}
+.cover .cta{position:absolute;right:16px;bottom:16px;background:#fff;border-radius:20px;padding:8px 14px;font-weight:700}
+
+/* Wrap */
+.wrap{max-width:1100px;margin:-110px auto 0;padding:0 12px}
+
+/* Profile Header */
+.profile{background:var(--card);border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.header{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:end}
+.avatar{width:170px;height:170px;border-radius:50%;background:#ddd;border:6px solid #fff}
+.info h2{margin:0}
+.info .bio{margin:6px 0;color:var(--muted)}
+.badges span{display:inline-block;background:#eef2ff;color:#3730a3;border-radius:12px;padding:4px 10px;margin-right:6px;font-size:12px;font-weight:700}
+.actions button{border:0;border-radius:10px;padding:10px 14px;margin-left:8px;font-weight:800;cursor:pointer}
+.primary{background:var(--brand);color:#fff}
+.ghost{background:#e4e6eb}
+
+/* Stats */
+.stats{display:flex;gap:18px;margin-top:10px;color:#111}
+.stat b{font-size:18px}
+.stat span{display:block;color:var(--muted);font-size:12px}
+
+/* Tabs */
+.tabs{display:flex;gap:10px;margin-top:14px;border-top:1px solid #e5e7eb;padding-top:10px}
+.tab{padding:8px 12px;border-radius:10px;font-weight:700;cursor:pointer}
+.tab.active{background:#e8f0fe;color:#174ea6}
+
+/* Main */
+.main{display:grid;grid-template-columns:1.1fr 2fr;gap:16px;margin:16px auto}
+.card{background:var(--card);border-radius:14px;padding:14px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+
+/* About */
+.about p{margin:8px 0;color:#333}
+.links a{display:inline-block;margin:6px 6px 0 0;background:#f3f4f6;padding:6px 10px;border-radius:10px;text-decoration:none;color:#111;font-weight:700}
+
+/* Composer */
+.composer textarea{width:100%;border-radius:12px;border:1px solid #e5e7eb;padding:10px;resize:none}
+.composer .row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+
 /* Post */
-.post {
-  margin-bottom: 15px;
-}
-.post img {
-  width: 100%;
-  border-radius: 10px;
-}
-.post-actions {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 8px;
-  font-size: 14px;
-}
-/* Video */
-.video-thumb {
-  width: 100%;
-  height: 160px;
-  background: #000;
-  border-radius: 10px;
-  margin-bottom: 8px;
-}
+.post{margin-bottom:14px}
+.post .head{display:flex;gap:10px;align-items:center}
+.mini{width:42px;height:42px;border-radius:50%;background:#ddd}
+.post .content{margin-top:8px}
+.post img{width:100%;border-radius:12px;margin-top:8px}
+.reacts{display:flex;justify-content:space-between;margin-top:8px;color:var(--muted);font-size:14px}
+.reacts .btns span{margin-right:14px;cursor:pointer}
+
+/* Pinned */
+.pinned{border:2px dashed #c7d2fe}
+
+@media(max-width:900px){.header{grid-template-columns:auto 1fr}.actions{grid-column:1/-1}.main{grid-template-columns:1fr}}
 
   </style>
 </head>
-<body>  <div class="cover"></div>  <div class="profile-box">
-    <div class="profile-header">
-      <div class="avatar"></div>
-      <div>
-        <h2>আপনার নাম</h2>
-        <p>Creator | Developer | Influencer</p>
-        <div class="actions">
-          <button class="follow">Follow</button>
-          <button class="subscribe">Subscribe</button>
+<body>  <!-- Cover -->  <div class="cover">
+    <div class="cta">Edit Cover</div>
+  </div>  <div class="wrap">
+    <!-- Profile -->
+    <div class="profile">
+      <div class="header">
+        <div class="avatar"></div>
+        <div class="info">
+          <h2>আপনার নাম</h2>
+          <div class="bio">Creator • Builder • Community Lover</div>
+          <div class="badges"><span>🔥 Trending</span><span>✔ Verified</span></div>
+          <div class="stats">
+            <div class="stat"><b>12.4K</b><span>Followers</span></div>
+            <div class="stat"><b>842</b><span>Friends</span></div>
+            <div class="stat"><b>1.2M</b><span>Views</span></div>
+          </div>
         </div>
+        <div class="actions">
+          <button class="primary">Follow</button>
+          <button class="ghost">Message</button>
+        </div>
+      </div>
+      <div class="tabs">
+        <div class="tab active">Posts</div>
+        <div class="tab">Media</div>
+        <div class="tab">About</div>
+        <div class="tab">Achievements</div>
+      </div>
+    </div><!-- Main -->
+<div class="main">
+  <!-- Left -->
+  <div>
+    <div class="card about">
+      <h3>About</h3>
+      <p>🏠 Lives in India</p>
+      <p>🎓 Studies at College</p>
+      <p>💼 Web Developer</p>
+      <div class="links">
+        <a href="#">Website</a><a href="#">YouTube</a><a href="#">Instagram</a>
       </div>
     </div>
-  </div>  <div class="content">
-    <!-- Left: Facebook style posts -->
-    <div>
-      <div class="card post">
-        <p>আজকে নতুন কিছু শিখলাম 🚀</p>
-        <img src="https://via.placeholder.com/600x300" />
-        <div class="post-actions">
-          <span>👍 Like</span>
-          <span>❤️ Love</span>
-          <span>🔗 Share</span>
-        </div>
+    <div class="card">
+      <h3>Highlights</h3>
+      <p>🏆 Hackathon Winner • 🎖 100+ Certificates • 🚀 Viral Posts</p>
+    </div>
+  </div>
+
+  <!-- Right -->
+  <div>
+    <div class="card composer">
+      <textarea rows="3" placeholder="What's on your mind?"></textarea>
+      <div class="row">
+        <span>📷 Media • 🎥 Video • 😊 Poll</span>
+        <button class="primary">Post</button>
       </div>
-    </div><!-- Right: YouTube style videos -->
-<div>
-  <div class="card">
-    <div class="video-thumb"></div>
-    <strong>My First Video</strong>
-    <p>10K views</p>
+    </div>
+
+    <div class="card post pinned">
+      <div class="head"><div class="mini"></div><b>আপনার নাম</b> • <span class="muted">Pinned</span></div>
+      <div class="content">📌 আমার সেরা পোস্ট — সবাই দেখুন!</div>
+      <div class="reacts"><span>❤️ 9.2K</span><div class="btns"><span>Like</span><span>Comment</span><span>Share</span></div></div>
+    </div>
+
+    <div class="card post">
+      <div class="head"><div class="mini"></div><b>আপনার নাম</b></div>
+      <div class="content">আজ নতুন ফিচার লঞ্চ করলাম 🚀</div>
+      <img src="https://via.placeholder.com/700x350" alt="post" />
+      <div class="reacts"><span>👍 1.4K • 💬 220</span><div class="btns"><span>Like</span><span>Comment</span><span>Share</span></div></div>
+    </div>
   </div>
 </div>
 
   </div></body>
-  </html>
+            </html>
