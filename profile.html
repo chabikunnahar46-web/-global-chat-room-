@@ -1,40 +1,123 @@
-<!DOCTYPE html>
-<html lang="bn">
+<!DOCTYPE html><html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Profile</title>
-  <link rel="stylesheet" href="profile.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile Page</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+    }
+    /* Cover */
+    .cover {
+      height: 200px;
+      background: linear-gradient(135deg, #ff0000, #1877f2);
+      position: relative;
+    }
+    /* Profile Info */
+    .profile-box {
+      max-width: 900px;
+      margin: -80px auto 0;
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: #ddd;
+      border: 4px solid #fff;
+    }
+    .profile-header h2 {
+      margin: 0;
+    }
+    .actions button {
+      margin-right: 10px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    .follow { background: #1877f2; color: #fff; }
+    .subscribe { background: #ff0000; color: #fff; }/* Layout */
+.content {
+  max-width: 900px;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+/* Post */
+.post {
+  margin-bottom: 15px;
+}
+.post img {
+  width: 100%;
+  border-radius: 10px;
+}
+.post-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 8px;
+  font-size: 14px;
+}
+/* Video */
+.video-thumb {
+  width: 100%;
+  height: 160px;
+  background: #000;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+  </style>
 </head>
-<body>
-
-<div class="profile">
-
-  <!-- Cover Photo -->
-  <div class="cover">
-    <img id="coverPreview" src="cover.jpg" alt="Cover">
-    <label class="cover-btn">
-      Change Cover
-      <input type="file" accept="image/*" onchange="loadCover(event)">
-    </label>
+<body>  <div class="cover"></div>  <div class="profile-box">
+    <div class="profile-header">
+      <div class="avatar"></div>
+      <div>
+        <h2>আপনার নাম</h2>
+        <p>Creator | Developer | Influencer</p>
+        <div class="actions">
+          <button class="follow">Follow</button>
+          <button class="subscribe">Subscribe</button>
+        </div>
+      </div>
+    </div>
+  </div>  <div class="content">
+    <!-- Left: Facebook style posts -->
+    <div>
+      <div class="card post">
+        <p>আজকে নতুন কিছু শিখলাম 🚀</p>
+        <img src="https://via.placeholder.com/600x300" />
+        <div class="post-actions">
+          <span>👍 Like</span>
+          <span>❤️ Love</span>
+          <span>🔗 Share</span>
+        </div>
+      </div>
+    </div><!-- Right: YouTube style videos -->
+<div>
+  <div class="card">
+    <div class="video-thumb"></div>
+    <strong>My First Video</strong>
+    <p>10K views</p>
   </div>
-
-  <!-- Profile DP -->
-  <div class="dp-box">
-    <img id="dpPreview" src="dp.jpg" class="dp">
-    <span class="status-dot"></span>
-
-    <label class="dp-btn">
-      📷
-      <input type="file" accept="image/*" onchange="loadDP(event)">
-    </label>
-  </div>
-
-  <h2>Chabikun Nahar</h2>
-  <p class="username">@chabikunnahar46</p>
-
 </div>
 
-<script src="script.js"></script>
-</body>
-    </html>
+  </div></body>
+  </html>
