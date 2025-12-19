@@ -1,0 +1,47 @@
+body{
+  margin:0;
+  font-family:system-ui;
+  background:#f0f2f5;
+}
+
+.container{
+  max-width:360px;
+  margin:80px auto;
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+}
+
+.logo{
+  text-align:center;
+  color:#1877f2;
+  margin-bottom:20px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-bottom:12px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-size:15px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  background:#42b72a;
+  color:#fff;
+  font-size:16px;
+  font-weight:700;
+  border:none;
+  border-radius:8px;
+}
+
+.from{
+  text-align:center;
+  margin-top:16px;
+  color:#65676b;
+  font-size:13px;
+  }
