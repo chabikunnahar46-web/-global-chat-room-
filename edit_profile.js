@@ -1,37 +1,34 @@
-import { db, ref, set } from './firebase.js'; //
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-const form = document.getElementById("edit_profile.html");
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
+  authDomain: "global-chat-75f38.firebaseapp.com",
+  databaseURL: "https://global-chat-75f38-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "global-chat-75f38",
+};
 
-form.addEventListener("submit", function(e) {
-  e.preventDefault(); // Prevent form refresh
+// Init
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-  const name = document.getElementById("name").value;
-  const age = document.getElementById("age").value;
-  const city = document.getElementById("city").value;
-  const work = document.getElementById("work").value;
-  const school = document.getElementById("school").value;
-  const girlfriend = document.getElementById("girlfriend").value;
-  const balance = document.getElementById("balance").value;
+// Save function
+window.saveProfile = function () {
+  const profileData = {
+    name: document.getElementById("name").value,
+    city: document.getElementById("city").value,
+    work: document.getElementById("work").value,
+    school: document.getElementById("school").value
+  };
 
-  // Generate a unique ID for each profile
-  const profileId = Date.now();
-
-  set(ref(db, 'profiles/' + profileId), {
-    name,
-    age,
-    city,
-    work,
-    school,
-    girlfriend,
-    balance,
-    createdAt: new Date().toISOString()
-  })
-  .then(() => {
-    alert("Profile saved successfully!");
-    form.reset(); // Clear the form
-  })
-  .catch((error) => {
-    console.error("Error saving profile: ", error);
-    alert("Failed to save profile.");
-  });
-});
+  // TEMP user id (later auth দিয়ে dynamic করবে)
+  set(ref(db, "users/demoUser"), profileData)
+    .then(() => {
+      alert("Profile saved successfully ✅");
+      window.location.href = "profile.html";
+    })
+    .catch(err => {
+      alert("Error: " + err.message);
+    });
+};
