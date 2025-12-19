@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Secure Checkout</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Checkout – Send Gift</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
@@ -12,99 +12,65 @@ body{
  background:#020617;
  color:#e5e7eb;
 }
-
 header{
  padding:14px;
  text-align:center;
  border-bottom:1px solid #1e293b;
- background:#020617;
 }
-
 .container{
- max-width:560px;
+ max-width:720px;
  margin:auto;
  padding:16px;
 }
-
-.step{
- display:flex;
- justify-content:space-between;
- font-size:13px;
- margin-bottom:14px;
- opacity:.85;
-}
-
 .card{
  background:#0f172a;
+ border-radius:18px;
  padding:16px;
- border-radius:16px;
- margin-bottom:14px;
+ box-shadow:0 6px 18px rgba(0,0,0,.4);
+ margin-bottom:16px;
 }
-
-.card h3{
- margin-top:0;
- font-size:16px;
+.product{
  display:flex;
+ gap:14px;
  align-items:center;
- gap:6px;
 }
-
+.product img{
+ width:90px;
+ height:70px;
+ object-fit:cover;
+ border-radius:10px;
+}
+.price{
+ color:#22c55e;
+ font-weight:bold;
+ margin-top:4px;
+}
 input, textarea, select{
  width:100%;
- padding:11px;
- margin:8px 0;
- border-radius:10px;
+ padding:12px;
+ margin-top:10px;
+ border-radius:14px;
  border:none;
  background:#020617;
  color:#e5e7eb;
  font-size:14px;
 }
-
-textarea{resize:none}
-
-.payment label{
- display:flex;
- align-items:center;
- gap:10px;
- padding:10px;
- background:#020617;
- border-radius:10px;
- margin:6px 0;
- cursor:pointer;
-}
-
-.summary{
- font-size:14px;
- line-height:1.6;
-}
-
-.summary .row{
- display:flex;
- justify-content:space-between;
-}
-
-.total{
- font-size:16px;
- font-weight:bold;
- color:#22c55e;
-}
-
 button{
  width:100%;
- padding:15px;
- margin-top:10px;
- background:linear-gradient(135deg,#22c55e,#16a34a);
+ padding:14px;
+ margin-top:14px;
  border:none;
  border-radius:18px;
- font-size:17px;
+ background:linear-gradient(135deg,#22c55e,#16a34a);
+ color:#000;
+ font-size:16px;
  cursor:pointer;
 }
-
-.secure{
- text-align:center;
+.note{
  font-size:12px;
  opacity:.7;
  margin-top:8px;
+ text-align:center;
 }
 </style>
 </head>
@@ -112,124 +78,102 @@ button{
 <body>
 
 <header>
- 🔒 Secure Checkout
+ <h2>🛒 Checkout</h2>
 </header>
 
 <div class="container">
 
-<!-- STEP -->
-<div class="step">
- <span>🛒 Cart</span>
- <span>➡️ Address</span>
- <span>➡️ Payment</span>
-</div>
+ <!-- PRODUCT INFO -->
+ <div class="card" id="productCard"></div>
 
-<!-- PRODUCT -->
-<div class="card">
- <h3>🎁 Product Summary</h3>
- <div class="summary">
-  <div class="row">
-    <span id="pname"></span>
-    <span>₹<span id="price"></span></span>
-  </div>
-  <div class="row">
-    <span>Delivery</span>
-    <span>FREE</span>
-  </div>
-  <div class="row total">
-    <span>Total</span>
-    <span>₹<span id="total"></span></span>
-  </div>
+ <!-- RECEIVER INFO -->
+ <div class="card">
+  <h3>🎁 Receiver Details</h3>
+
+  <input id="receiverName" placeholder="Receiver Name">
+  <input id="receiverPhone" placeholder="Receiver Phone Number">
+  <textarea id="receiverAddress" placeholder="Delivery Address"></textarea>
+
+  <select id="relation">
+   <option value="">Relation with Receiver</option>
+   <option>Mother</option>
+   <option>Father</option>
+   <option>Friend</option>
+   <option>Brother</option>
+   <option>Sister</option>
+   <option>Partner</option>
+  </select>
+
+  <textarea id="message" placeholder="Message for receiver ❤️ (optional)"></textarea>
  </div>
-</div>
 
-<!-- RECEIVER DETAILS -->
-<div class="card">
- <h3>👤 Receiver Details</h3>
+ <!-- PAYMENT -->
+ <div class="card">
+  <h3>💳 Payment</h3>
+  <select id="payment">
+   <option value="">Select Payment Method</option>
+   <option>Cash on Delivery</option>
+   <option>UPI (Demo)</option>
+   <option>Pay Later</option>
+  </select>
+ </div>
 
- <input id="rname" placeholder="Receiver Full Name">
- <input id="rphone" placeholder="Receiver Phone Number">
+ <button type="button" onclick="placeOrder()">Place Order 🎉</button>
 
- <select id="relation">
-  <option value="">Select Relation</option>
-  <option>Mother</option>
-  <option>Father</option>
-  <option>Brother</option>
-  <option>Sister</option>
-  <option>Friend</option>
-  <option>Lover</option>
-  <option>Husband</option>
-  <option>Wife</option>
-  <option>Other</option>
- </select>
-</div>
-
-<!-- ADDRESS -->
-<div class="card">
- <h3>📍 Delivery Address</h3>
- <textarea id="address" placeholder="House, Area, City, Pincode"></textarea>
-</div>
-
-<!-- PAYMENT -->
-<div class="card payment">
- <h3>💳 Payment Method</h3>
-
- <label>
-  <input type="radio" name="pay" value="UPI" checked>
-  UPI (GPay / PhonePe / Paytm)
- </label>
-
- <label>
-  <input type="radio" name="pay" value="COD">
-  Cash on Delivery
- </label>
-
- <label>
-  <input type="radio" name="pay" value="Wallet">
-  Wallet / Gift Balance
- </label>
-</div>
-
-<button onclick="placeOrder()">Place Order</button>
-<div class="secure">100% Secure • Trusted Delivery</div>
+ <div class="note">
+  This is a demo order system. Delivery will be coordinated manually.
+ </div>
 
 </div>
 
 <script>
+/* LOAD PRODUCT */
 const product = JSON.parse(localStorage.getItem("checkoutProduct"));
+const card = document.getElementById("productCard");
 
-pname.innerText = product.name;
-price.innerText = product.price;
-total.innerText = product.price;
+if(!product){
+ card.innerHTML = "<p>No product selected.</p>";
+}else{
+ card.innerHTML = `
+  <div class="product">
+   <img src="${product.image}">
+   <div>
+    <h3>${product.name}</h3>
+    <div class="price">₹${product.price}</div>
+    ${product.receiver ? `<small>Sending to <b>${product.receiver}</b> ❤️</small>` : ""}
+   </div>
+  </div>
+ `;
+ document.getElementById("receiverName").value = product.receiver || "";
+}
 
+/* PLACE ORDER */
 function placeOrder(){
- if(!rname.value || !rphone.value || !address.value || !relation.value){
-  alert("⚠️ Please fill all receiver details");
+ const order={
+  product,
+  receiverName: receiverName.value.trim(),
+  receiverPhone: receiverPhone.value.trim(),
+  receiverAddress: receiverAddress.value.trim(),
+  relation: relation.value,
+  message: message.value,
+  payment: payment.value,
+  status: "Order Placed",
+  time: new Date().toLocaleString()
+ };
+
+ if(!order.receiverName || !order.receiverPhone || !order.receiverAddress || !order.relation || !order.payment){
+  alert("⚠ Please fill all required fields");
   return;
  }
 
- const order={
-  product:product.name,
-  price:product.price,
-  receiver:{
-   name:rname.value,
-   phone:rphone.value,
-   relation:relation.value
-  },
-  address:address.value,
-  payment:document.querySelector("input[name='pay']:checked").value,
-  status:"Order Placed",
-  time:new Date().toLocaleString()
- };
-
- const orders=JSON.parse(localStorage.getItem("orders"))||[];
+ const orders = JSON.parse(localStorage.getItem("orders")) || [];
  orders.push(order);
- localStorage.setItem("orders",JSON.stringify(orders));
+ localStorage.setItem("orders", JSON.stringify(orders));
 
- alert("🎉 Gift order placed successfully!");
- location.href="index.html";
+ alert("🎉 Order placed successfully!");
+ localStorage.removeItem("checkoutProduct");
 }
 </script>
 
 </body>
-  </html>
+                  </html>
