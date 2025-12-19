@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Create Account</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Create New Account</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="signup.css">
 </head>
 <body>
 
-<div class="form-box">
-  <h2>Create Account</h2>
+<div class="container">
 
-  <input id="name" type="text" placeholder="Your Name">
-  <input id="age" type="number" placeholder="Your Age">
+  <h1 class="logo">MySocial</h1>
 
-  <div id="gf-box">
-    <input id="girlfriend" type="text" placeholder="Girlfriend Name">
-  </div>
+  <input id="name" type="text" placeholder="Full name">
 
-  <div id="bank-box" style="display:none;">
-    <input id="balance" type="number" placeholder="Bank Balance">
-  </div>
+  <input id="email" type="text" placeholder="Mobile number or email">
 
-  <button onclick="createAccount()">Save</button>
+  <input id="password" type="password" placeholder="Password">
+
+  <button onclick="signup()">Create New Account</button>
+
+  <p class="from">from <b>Ajju</b></p>
+
 </div>
 
-<script src="signup.js"></script>
+<script type="module" src="signup.js"></script>
 </body>
 </html>
