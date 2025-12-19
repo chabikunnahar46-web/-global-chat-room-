@@ -1,15 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
-  <title>Global Chat Room</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>MySocial – Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body{
+      margin:0;
+      font-family:system-ui, -apple-system, Segoe UI, Roboto;
+      background:#f0f2f5;
+    }
+
+    .header{
+      background:#1877f2;
+      color:#fff;
+      padding:14px;
+      text-align:center;
+      font-size:18px;
+      font-weight:700;
+    }
+
+    .container{
+      padding:16px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:16px;
+      padding:20px;
+      margin-bottom:16px;
+      box-shadow:0 4px 12px rgba(0,0,0,.1);
+      text-align:center;
+    }
+
+    .card h3{
+      margin:0 0 8px;
+    }
+
+    .card p{
+      color:#555;
+      font-size:14px;
+    }
+
+    .btn{
+      display:inline-block;
+      margin-top:10px;
+      padding:10px 18px;
+      background:#1877f2;
+      color:#fff;
+      text-decoration:none;
+      border-radius:20px;
+      font-weight:600;
+    }
+  </style>
 </head>
+
 <body>
 
-<h2>Welcome to Global Chat Website</h2>
+  <div class="header">
+    🌐 MySocial Network
+  </div>
 
-<a href="signup.html">Create Account</a><br>
-<a href="profile.html">My Profile</a>
+  <div class="container">
+
+    <!-- Profile Card -->
+    <div class="card">
+      <h3>👤 My Profile</h3>
+      <p>নিজের প্রোফাইল দেখুন ও এডিট করুন</p>
+      <a href="profile.html" class="btn">Open Profile</a>
+    </div>
+
+    <!-- Global Chat Card -->
+    <div class="card">
+      <h3>🌍 Global Chat Room</h3>
+      <p>সব ইউজারের সাথে লাইভ চ্যাট করুন</p>
+      <a href="chat.html" class="btn">Join Chat</a>
+    </div>
+
+  </div>
 
 </body>
-</html>
+  </html>
