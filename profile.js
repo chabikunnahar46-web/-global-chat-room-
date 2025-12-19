@@ -33,3 +33,6 @@ get(userRef).then((snapshot) => {
       "💼 " + (data.work || "");
   }
 });
+window.goEdit = function () {
+  window.location.href = "edit_profile.html";
+};
