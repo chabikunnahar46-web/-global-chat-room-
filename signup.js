@@ -1,30 +1,32 @@
-let ageInput = document.getElementById("age");
-let gfBox = document.getElementById("gf-box");
-let bankBox = document.getElementById("bank-box");
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-ageInput.addEventListener("input", () => {
-  let age = Number(ageInput.value);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
 
-  if (age >= 1 && age <= 24) {
-    gfBox.style.display = "block";
-    bankBox.style.display = "none";
-  } 
-  else if (age >= 25 && age <= 70) {
-    gfBox.style.display = "none";
-    bankBox.style.display = "block";
-  }
-});
+window.signup = function () {
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-function createAccount() {
-  let name = document.getElementById("name").value;
-  let age = Number(document.getElementById("age").value);
-  let girlfriend = document.getElementById("girlfriend").value;
-  let balance = document.getElementById("balance").value;
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const uid = userCredential.user.uid;
 
-  let data = { name, age, girlfriend, balance };
+      // 🔥 নাম save করা হচ্ছে
+      set(ref(db, "users/" + uid), {
+        name: name,
+        location: "India",
+        role: "Student / Developer",
+        work: "Social Network Creator"
+      });
 
-  localStorage.setItem("userProfile", JSON.stringify(data));
-
-  alert("Account Created!");
-  window.location.href = "profile.html";
-}
+      localStorage.setItem("uid", uid);
+      window.location.href = "profile.html";
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+};
