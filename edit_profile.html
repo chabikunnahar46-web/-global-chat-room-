@@ -4,24 +4,9 @@
   <meta charset="UTF-8">
   <title>Edit Profile</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="edit-profile.css">
+  <link rel="stylesheet" href="edit_profile.css">
 </head>
-  <!-- firebase.js -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
-  authDomain: "global-chat-75f38.firebaseapp.com",
-  databaseURL: "https://global-chat-75f38-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "global-chat-75f38",
-};
-
-export const app = initializeApp(firebaseConfig);
-export const db = getDatabase(app);
-export { ref, set, get, child };
-</script>
 <body>
 
 <header class="top-bar">
@@ -55,18 +40,15 @@ export { ref, set, get, child };
   <h4>Details</h4>
 
   <input id="name" placeholder="Your name">
-  <input id="age" type="number" placeholder="Age">
-
-  <input id="city" placeholder="Current City">
+  <input id="city" placeholder="Lives in">
   <input id="work" placeholder="Work">
   <input id="school" placeholder="School">
-
-  <input id="girlfriend" placeholder="Girlfriend name">
-  <input id="balance" placeholder="Bank balance">
 
   <button onclick="saveProfile()">Save</button>
 </div>
 
-<script src="edit-profile.js"></script>
+<!-- Firebase + JS -->
+<script type="module" src="edit_profile.js"></script>
+
 </body>
-    </html>
+</html>
