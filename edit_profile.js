@@ -9,26 +9,33 @@ const firebaseConfig = {
   projectId: "global-chat-75f38",
 };
 
-// Init
+// Init Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Save function
+// 🔥 IMPORTANT: function কে window তে attach করো
 window.saveProfile = function () {
+  const uid = localStorage.getItem("uid");
+
+  if (!uid) {
+    alert("User not logged in ❌");
+    return;
+  }
+
   const profileData = {
     name: document.getElementById("name").value,
     city: document.getElementById("city").value,
     work: document.getElementById("work").value,
-    school: document.getElementById("school").value
+    school: document.getElementById("school").value,
   };
 
-  // TEMP user id (later auth দিয়ে dynamic করবে)
-  set(ref(db, "users/demoUser"), profileData)
+  set(ref(db, "users/" + uid), profileData)
     .then(() => {
       alert("Profile saved successfully ✅");
       window.location.href = "profile.html";
     })
-    .catch(err => {
-      alert("Error: " + err.message);
+    .catch((error) => {
+      alert("Save failed ❌ " + error.message);
+      console.error(error);
     });
 };
