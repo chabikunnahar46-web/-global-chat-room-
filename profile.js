@@ -36,3 +36,11 @@ get(userRef).then((snapshot) => {
 window.goEdit = function () {
   window.location.href = "edit_profile.html";
 };
+const params = new URLSearchParams(window.location.search);
+const profileUid = params.get("uid");
+const myUid = localStorage.getItem("uid");
+
+if (profileUid && profileUid !== myUid) {
+  const editBtn = document.querySelector(".edit");
+  if (editBtn) editBtn.style.display = "none";
+      }
