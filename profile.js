@@ -1,4 +1,3 @@
-// Firebase SDK import
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { 
   getAuth, 
@@ -10,7 +9,7 @@ import {
   get 
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-// 🔹 Firebase config (same as signup.js)
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
   authDomain: "global-chat-75f38.firebaseapp.com",
@@ -21,46 +20,43 @@ const firebaseConfig = {
   appId: "1:682790896070:web:5d142dec99031730f072c7"
 };
 
-// Initialize Firebase
+// Init
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-// 🔥 Logged-in user detect
+// Logged user check
 onAuthStateChanged(auth, (user) => {
 
-  if (user) {
-    const uid = user.uid;
-
-    // 🔹 Get profile data
-    get(ref(db, "users/" + uid))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const data = snapshot.val();
-
-          // 🔹 Profile name
-          document.querySelector(".info h2").innerText = data.name || "No Name";
-
-          // 🔹 About section
-          document.getElementById("location").innerText =
-            "🏠 Lives in " + (data.location || "Not set");
-
-          document.getElementById("role").innerText =
-            "🎓 " + (data.role || "Not set");
-
-          document.getElementById("work").innerText =
-            "💼 " + (data.work || "Not set");
-
-        } else {
-          console.log("No profile data found");
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-
-  } else {
-    // ❌ Not logged in → go to signup/login
+  if (!user) {
     window.location.href = "signup.html";
+    return;
   }
+
+  const uid = user.uid;
+
+  get(ref(db, "users/" + uid))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+
+        document.querySelector(".info h2").innerText =
+          data.name || "No Name";
+
+        document.getElementById("location").innerText =
+          "🏠 Lives in " + (data.location || "Not set");
+
+        document.getElementById("role").innerText =
+          "🎓 " + (data.role || "Student / Developer");
+
+        document.getElementById("work").innerText =
+          "💼 " + (data.work || "Social Network Creator");
+
+      } else {
+        console.log("No profile data found");
+      }
+    })
+    .catch((error) => {
+      console.error("Error loading profile:", error);
+    });
 });
