@@ -1,37 +1,32 @@
 import { db } from "./firebase.js";
-import {
-  ref,
-  push,
-  onChildAdded
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+import { ref, push, onChildAdded } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-const chatBox = document.getElementById("chatBox");
-const input = document.getElementById("messageInput");
+const messagesRef = ref(db, "globalMessages");
+
+const msgBox = document.getElementById("messages");
 const sendBtn = document.getElementById("sendBtn");
 
-const userName = prompt("Your name?") || "Guest";
-const messagesRef = ref(db, "globalChat");
-
-// SEND MESSAGE
 sendBtn.onclick = () => {
-  const text = input.value.trim();
-  if (text === "") return;
+  const name = document.getElementById("username").value || "Guest";
+  const text = document.getElementById("message").value;
 
-  push(messagesRef, {
-    name: userName,
+  if(text.trim() === "") return;
+
+  push(messagesRef,{
+    name: name,
     message: text,
     time: Date.now()
   });
 
-  input.value = "";
+  document.getElementById("message").value = "";
 };
 
-// RECEIVE MESSAGE
-onChildAdded(messagesRef, (snapshot) => {
+onChildAdded(messagesRef, snapshot => {
   const data = snapshot.val();
   const div = document.createElement("div");
-  div.className = "message";
-  div.innerHTML = `<b>${data.name}</b>: ${data.message}`;
-  chatBox.appendChild(div);
-  chatBox.scrollTop = chatBox.scrollHeight;
+  div.className = "msg";
+  div.innerHTML = `<b>${data.name}</b><br>${data.message}`;
+  msgBox.appendChild(div);
+  msgBox.scrollTop = msgBox.scrollHeight;
 });
