@@ -183,3 +183,21 @@ function buyProduct(name, price){
 
 </body>
 </html>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
+  databaseURL: "https://global-chat-75f38-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// 🔥 TEST WRITE
+set(ref(db, "test"), {
+  status: "Firebase Connected",
+  time: Date.now()
+});
+</script>
