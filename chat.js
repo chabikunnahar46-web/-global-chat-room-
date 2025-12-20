@@ -1,5 +1,5 @@
 import { database } from "./firebase.js";
-import { ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+import { ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
 const chatBox = document.getElementById("chatBox");
 const messageInput = document.getElementById("messageInput");
@@ -10,64 +10,40 @@ let userIcon = "https://i.postimg.cc/02Qmwvhd/avatar.png";
 
 const messagesRef = ref(database, "globalMessages");
 
-// Profile popup
-const profilePopup = document.getElementById("profilePopup");
-const popupName = document.getElementById("popupName");
-const popupIcon = document.getElementById("popupIcon");
-const popupAge = document.getElementById("popupAge");
-const closePopup = document.getElementById("closePopup");
-
-closePopup.addEventListener("click", () => profilePopup.style.display = "none");
-
-// Send message
+// Send message on button click
 sendBtn.addEventListener("click", () => {
   const msg = messageInput.value.trim();
-  if (!msg) return;
+  if(!msg) return; // empty message not sent
 
   push(messagesRef, {
     name: userName,
-    icon: userIcon,
     message: msg,
-    age: Math.floor(Math.random() * 50) + 13, // demo age
+    icon: userIcon,
     time: Date.now()
   });
 
   messageInput.value = "";
 });
 
-// Load messages in real-time
+// Real-time messages load
 onValue(messagesRef, (snapshot) => {
   chatBox.innerHTML = "";
   snapshot.forEach((childSnapshot) => {
     const data = childSnapshot.val();
-    const msgKey = childSnapshot.key;
-
     const msgDiv = document.createElement("div");
     msgDiv.classList.add("message");
     msgDiv.classList.add(data.name === userName ? "my-message" : "other-message");
 
     msgDiv.innerHTML = `
       <img src="${data.icon}" alt="icon">
-      <div><strong>${data.name}</strong>: ${data.message}</div>
-      ${data.name === userName ? '<button class="delete-btn">🗑️</button>' : ''}
+      <div><strong>${data.name}:</strong> ${data.message}</div>
     `;
     chatBox.appendChild(msgDiv);
-
-    // Click profile icon to show popup
-    msgDiv.querySelector("img").addEventListener("click", () => {
-      popupName.textContent = data.name;
-      popupIcon.src = data.icon;
-      popupAge.textContent = "Age: " + data.age;
-      profilePopup.style.display = "block";
-    });
-
-    // Delete own messages
-    if (data.name === userName) {
-      msgDiv.querySelector(".delete-btn").addEventListener("click", () => {
-        remove(ref(database, `globalMessages/${msgKey}`));
-      });
-    }
   });
-
   chatBox.scrollTop = chatBox.scrollHeight;
+});
+
+// Send message on Enter key press
+messageInput.addEventListener("keypress", (e) => {
+  if(e.key === "Enter") sendBtn.click();
 });
