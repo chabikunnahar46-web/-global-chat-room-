@@ -1,48 +1,31 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+import { db } from "./firebase.js";
+import { ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
-  authDomain: "global-chat-75f38.firebaseapp.com",
-  databaseURL: "https://global-chat-75f38-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "global-chat-75f38",
-};
+const chatRef = ref(db, "globalChat");
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getDatabase(app);
+window.sendMsg = function () {
+  const msg = document.getElementById("msgInput").value;
+  if (msg === "") return;
 
-// 🔐 Check login
-let currentUser;
-
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    alert("Login first");
-    window.location.href = "index.html";
-  } else {
-    currentUser = user;
-  }
-});
-
-// 📤 Send message
-window.sendMessage = function () {
-  const text = document.getElementById("msg").value.trim();
-  if (!text) return;
-
-  push(ref(db, "globalChat"), {
-    uid: currentUser.uid,
-    message: text,
+  push(chatRef, {
+    name: "Guest",
+    message: msg,
     time: Date.now()
   });
 
-  document.getElementById("msg").value = "";
+  document.getElementById("msgInput").value = "";
 };
 
-// 📥 Receive messages
-onChildAdded(ref(db, "globalChat"), (snapshot) => {
-  const data = snapshot.val();
-  const div = document.createElement("div");
-  div.innerText = data.message;
-  document.getElementById("chat").appendChild(div);
+onValue(chatRef, (snapshot) => {
+  const box = document.getElementById("chatBox");
+  box.innerHTML = "";
+
+  snapshot.forEach(child => {
+    const data = child.val();
+    const div = document.createElement("div");
+    div.innerHTML = `<b>${data.name}</b>: ${data.message}`;
+    box.appendChild(div);
+  });
+
+  box.scrollTop = box.scrollHeight;
 });
