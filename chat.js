@@ -1,30 +1,19 @@
 import { database } from "./firebase.js";
-import { ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+import { ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+// ইউজারের নাম ও ডিফল্ট আইকন
+let userName = prompt("Enter your name:") || "Guest";
+let userIcon = "https://i.postimg.cc/02Qmwvhd/avatar.png";
 
 const chatBox = document.getElementById("chatBox");
 const messageInput = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
 
-// Profile popup
-const profilePopup = document.getElementById("profilePopup");
-const popupName = document.getElementById("popupName");
-const closePopup = document.getElementById("closePopup");
-const deleteMsgBtn = document.getElementById("deleteMsgBtn");
-
-let selectedMsgKey = null;
-
-let userName = prompt("Enter your name:") || "Guest";
-let userIcon = "https://i.postimg.cc/02Qmwvhd/avatar.png";
-
+// Database reference
 const messagesRef = ref(database, "globalMessages");
 
-// Send message
-sendBtn.addEventListener("click", sendMessage);
-messageInput.addEventListener("keypress", (e) => {
-  if(e.key === "Enter") sendMessage();
-});
-
-function sendMessage(){
+// Send button event
+sendBtn.addEventListener("click", () => {
   const msg = messageInput.value.trim();
   if(!msg) return;
 
@@ -34,43 +23,22 @@ function sendMessage(){
     icon: userIcon,
     time: Date.now()
   });
+
   messageInput.value = "";
-}
+});
 
-// Load messages
-onValue(messagesRef, (snapshot) => {
-  chatBox.innerHTML = "";
-  snapshot.forEach((childSnapshot) => {
-    const data = childSnapshot.val();
-    const key = childSnapshot.key;
+// Firebase থেকে মেসেজ রিয়েলটাইম লোড
+onChildAdded(messagesRef, (snapshot) => {
+  const data = snapshot.val();
+  const msgDiv = document.createElement("div");
+  msgDiv.classList.add("message");
+  msgDiv.classList.add(data.name === userName ? "my-message" : "other-message");
 
-    const msgDiv = document.createElement("div");
-    msgDiv.classList.add("message");
-    msgDiv.classList.add(data.name === userName ? "my-message" : "other-message");
-    msgDiv.innerHTML = `<img src="${data.icon}" alt="icon"><div><strong>${data.name}:</strong> ${data.message}</div>`;
-    
-    // Click to open profile popup
-    msgDiv.querySelector("img").addEventListener("click", () => {
-      profilePopup.style.display = "flex";
-      popupName.innerText = data.name;
-      selectedMsgKey = key;
-    });
+  msgDiv.innerHTML = `
+    <img src="${data.icon}" alt="icon" class="profile-icon">
+    <div><strong>${data.name}:</strong> ${data.message}</div>
+  `;
 
-    chatBox.appendChild(msgDiv);
-  });
+  chatBox.appendChild(msgDiv);
   chatBox.scrollTop = chatBox.scrollHeight;
-});
-
-// Close popup
-closePopup.addEventListener("click", () => {
-  profilePopup.style.display = "none";
-  selectedMsgKey = null;
-});
-
-// Delete message
-deleteMsgBtn.addEventListener("click", () => {
-  if(selectedMsgKey){
-    remove(ref(database, `globalMessages/${selectedMsgKey}`));
-    profilePopup.style.display = "none";
-  }
 });
