@@ -1,56 +1,29 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <title>MySocial Network</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body{
-      margin:0;
-      font-family:system-ui, -apple-system, Segoe UI, Roboto;
-      background:#f0f2f5;
-      text-align:center;
-    }
-    .box{
-      background:#fff;
-      margin:80px 20px;
-      padding:24px;
-      border-radius:16px;
-      box-shadow:0 4px 14px rgba(0,0,0,.1);
-    }
-    h2{margin-top:0}
-    .btn{
-      display:block;
-      margin:12px auto;
-      padding:12px;
-      width:100%;
-      max-width:280px;
-      background:#1877f2;
-      color:#fff;
-      text-decoration:none;
-      border-radius:20px;
-      font-weight:700;
-    }
-    .link{
-      margin-top:12px;
-      color:#1877f2;
-      text-decoration:none;
-      font-size:14px;
-      display:inline-block;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Login | Ajju</title>
 </head>
 
 <body>
 
-  <div class="box">
-    <h2>🌐 MySocial</h2>
-    <p>একাউন্ট খুলে প্রোফাইল ও গ্লোবাল চ্যাট ব্যবহার করুন</p>
+<h2>Login</h2>
 
-    <a href="signup.html" class="btn">Create Account</a>
-    <a href="login.html" class="link">Already have account? Login</a>
-  </div>
+<input id="phone" placeholder="+91 মোবাইল নাম্বার">
+<button onclick="sendOTP()">Send OTP</button>
 
+<div id="otp-box" style="display:none">
+  <input id="otp" placeholder="OTP লিখুন">
+  <button onclick="verifyOTP()">Verify</button>
+</div>
+
+<p style="text-align:center;margin-top:30px">
+  from <b>& Ajju</b>
+</p>
+
+<div id="recaptcha-container"></div>
+
+<script type="module" src="signup.js"></script>
 </body>
-</html>
+  </html>
