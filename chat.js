@@ -1,32 +1,73 @@
-import { db } from "./firebase.js";
-import { ref, push, onChildAdded } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { database } from "./firebase.js";
+import { ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-const messagesRef = ref(db, "globalMessages");
-
-const msgBox = document.getElementById("messages");
+const chatBox = document.getElementById("chatBox");
+const messageInput = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
 
-sendBtn.onclick = () => {
-  const name = document.getElementById("username").value || "Guest";
-  const text = document.getElementById("message").value;
+let userName = prompt("Enter your name:") || "Guest";
+let userIcon = "https://i.postimg.cc/02Qmwvhd/avatar.png";
 
-  if(text.trim() === "") return;
+const messagesRef = ref(database, "globalMessages");
 
-  push(messagesRef,{
-    name: name,
-    message: text,
+// Profile popup
+const profilePopup = document.getElementById("profilePopup");
+const popupName = document.getElementById("popupName");
+const popupIcon = document.getElementById("popupIcon");
+const popupAge = document.getElementById("popupAge");
+const closePopup = document.getElementById("closePopup");
+
+closePopup.addEventListener("click", () => profilePopup.style.display = "none");
+
+// Send message
+sendBtn.addEventListener("click", () => {
+  const msg = messageInput.value.trim();
+  if (!msg) return;
+
+  push(messagesRef, {
+    name: userName,
+    icon: userIcon,
+    message: msg,
+    age: Math.floor(Math.random() * 50) + 13, // demo age
     time: Date.now()
   });
 
-  document.getElementById("message").value = "";
-};
+  messageInput.value = "";
+});
 
-onChildAdded(messagesRef, snapshot => {
-  const data = snapshot.val();
-  const div = document.createElement("div");
-  div.className = "msg";
-  div.innerHTML = `<b>${data.name}</b><br>${data.message}`;
-  msgBox.appendChild(div);
-  msgBox.scrollTop = msgBox.scrollHeight;
+// Load messages in real-time
+onValue(messagesRef, (snapshot) => {
+  chatBox.innerHTML = "";
+  snapshot.forEach((childSnapshot) => {
+    const data = childSnapshot.val();
+    const msgKey = childSnapshot.key;
+
+    const msgDiv = document.createElement("div");
+    msgDiv.classList.add("message");
+    msgDiv.classList.add(data.name === userName ? "my-message" : "other-message");
+
+    msgDiv.innerHTML = `
+      <img src="${data.icon}" alt="icon">
+      <div><strong>${data.name}</strong>: ${data.message}</div>
+      ${data.name === userName ? '<button class="delete-btn">🗑️</button>' : ''}
+    `;
+    chatBox.appendChild(msgDiv);
+
+    // Click profile icon to show popup
+    msgDiv.querySelector("img").addEventListener("click", () => {
+      popupName.textContent = data.name;
+      popupIcon.src = data.icon;
+      popupAge.textContent = "Age: " + data.age;
+      profilePopup.style.display = "block";
+    });
+
+    // Delete own messages
+    if (data.name === userName) {
+      msgDiv.querySelector(".delete-btn").addEventListener("click", () => {
+        remove(ref(database, `globalMessages/${msgKey}`));
+      });
+    }
+  });
+
+  chatBox.scrollTop = chatBox.scrollHeight;
 });
