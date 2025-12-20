@@ -1,44 +1,34 @@
-import { database } from "./firebase.js";
-import { ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+<script type="module">
+import { db } from "./firebase.js";
+import { ref, push, onChildAdded } from 
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-// ইউজারের নাম এবং প্রোফাইল আইকন (ডেমো)
-let userName = prompt("Enter your name:") || "Guest";
-let userIcon = "https://i.postimg.cc/02Qmwvhd/avatar.png"; // ডিফল্ট প্রোফাইল আইকন
-
-const chatBox = document.getElementById("chatBox");
-const messageInput = document.getElementById("messageInput");
+const msgBox = document.getElementById("messages");
 const sendBtn = document.getElementById("sendBtn");
 
-const messagesRef = ref(database, "messages");
+const chatRef = ref(db, "globalChat");
 
-// মেসেজ পাঠানো
-sendBtn.addEventListener("click", () => {
-  let msg = messageInput.value.trim();
-  if(msg){
-    push(messagesRef, {
-      name: userName,
-      message: msg,
-      icon: userIcon
-    });
-    messageInput.value = '';
-  }
-});
+sendBtn.onclick = () => {
+  const name = document.getElementById("username").value || "Guest";
+  const text = document.getElementById("message").value;
 
-// রিয়েলটাইম ডাটাবেস থেকে মেসেজ লোড করা
-onValue(messagesRef, (snapshot) => {
-  chatBox.innerHTML = '';
-  snapshot.forEach((childSnapshot) => {
-    const data = childSnapshot.val();
-    const msgDiv = document.createElement("div");
-    msgDiv.classList.add("message");
-    msgDiv.classList.add(data.name === userName ? "my-message" : "other-message");
+  if (text === "") return;
 
-    // মেসেজের পাশে প্রোফাইল আইকন দেখানো
-    msgDiv.innerHTML = `
-      <img src="${data.icon}" alt="icon">
-      <div><strong>${data.name}:</strong> ${data.message}</div>
-    `;
-    chatBox.appendChild(msgDiv);
+  push(chatRef, {
+    name: name,
+    message: text,
+    time: Date.now()
   });
-  chatBox.scrollTop = chatBox.scrollHeight;
+
+  document.getElementById("message").value = "";
+};
+
+onChildAdded(chatRef, (snapshot) => {
+  const data = snapshot.val();
+  const div = document.createElement("div");
+  div.className = "msg";
+  div.innerHTML = `<b>${data.name}</b>: ${data.message}`;
+  msgBox.appendChild(div);
+  msgBox.scrollTop = msgBox.scrollHeight;
 });
+</script>
