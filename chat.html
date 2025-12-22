@@ -1,22 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Chat</title>
-<link rel="stylesheet" href="chat.css">
+<title>Global Chat Room</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="chat-container">
-  <div id="messages"></div>
+<!-- 🔝 Top Bar -->
+<div class="topbar">
+  <span class="title">Chat Room</span>
+  <span class="menu" onclick="toggleMenu()">⋮</span>
+</div>
 
-  <div class="input-box">
-    <input id="msgInput" placeholder="Message…" />
-    <button id="sendBtn">Send</button>
-  </div>
+<!-- ☰ Menu -->
+<div id="menuBox" class="menu-box">
+  <div onclick="changeName()">Change Name</div>
+  <div onclick="showCountry()">My Country</div>
+  <div onclick="toggleTheme()">Dark / Light</div>
+</div>
+
+<!-- 💬 Messages -->
+<div id="messages" class="messages"></div>
+
+<!-- ⌨️ Input -->
+<div class="input-box">
+  <input id="messageInput" placeholder="Type message..." />
+  <button id="sendBtn">➤</button>
 </div>
 
 <script type="module" src="chat.js"></script>
 </body>
-</html>
+  </html>
