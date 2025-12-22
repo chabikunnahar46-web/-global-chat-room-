@@ -2,28 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Create New Account</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="signup.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    }
+    h2 { text-align: center; }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      background: #1877f2;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    p { font-size: 12px; text-align: center; color: #555; margin-top: 10px; }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h2>Create Account</h2>
 
-<div class="container">
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password (min 6 chars)" required>
 
-  <h1 class="logo">MySocial</h1>
+    <button onclick="signup()">Create New Account</button>
 
-  <input id="name" type="text" placeholder="Full name">
+    <p>Already have an account? <a href="login.html">Login</a></p>
+    <p>&copy; From Ajju</p>
+  </div>
 
-  <input id="email" type="text" placeholder="Mobile number or email">
-
-  <input id="password" type="password" placeholder="Password">
-
-  <button onclick="signup()">Create New Account</button>
-
-  <p class="from">from <b>Ajju</b></p>
-
-</div>
-
-<script type="module" src="signup.js"></script>
+  <!-- Firebase SDK + signup.js -->
+  <script type="module" src="signup.js"></script>
 </body>
-</html>
+  </html>
