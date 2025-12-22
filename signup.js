@@ -1,39 +1,68 @@
-import { auth, db } from "./firebase.js";
-import { RecaptchaVerifier, signInWithPhoneNumber } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { ref, set } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import {
+  getDatabase,
+  ref,
+  set
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-window.recaptchaVerifier = new RecaptchaVerifier(
-  auth,
-  "recaptcha-container",
-  { size: "invisible" }
-);
+const firebaseConfig = {
+  apiKey: "AIzaSyBi7uoQT-2Lg-wlGMptk3Dryy43ZA2gpgk",
+  authDomain: "global-chat-75f38.firebaseapp.com",
+  databaseURL: "https://global-chat-75f38-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "global-chat-75f38",
+  storageBucket: "global-chat-75f38.firebasestorage.app",
+  messagingSenderId: "682790896070",
+  appId: "1:682790896070:web:5d142dec99031730f072c7"
+};
 
-let confirmationResult;
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
 
-window.sendOTP = function () {
-  const phone = document.getElementById("phone").value;
-  signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
-    .then(result => {
-      confirmationResult = result;
-      document.getElementById("otp-box").style.display = "block";
-      alert("OTP পাঠানো হয়েছে");
+/* 🔹 SIGN UP */
+window.signup = function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const name = document.getElementById("name").value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const uid = userCredential.user.uid;
+
+      // 🔥 Save profile data
+      set(ref(db, "users/" + uid), {
+        name: name,
+        email: email,
+        location: "India",
+        role: "New User",
+        work: "Member"
+      });
+
+      // ✅ Redirect to profile
+      window.location.href = "profile.html";
     })
-    .catch(err => alert(err.message));
-};
-
-window.verifyOTP = function () {
-  const otp = document.getElementById("otp").value;
-  confirmationResult.confirm(otp).then(result => {
-    const user = result.user;
-
-    set(ref(db, "users/" + user.uid), {
-      phone: user.phoneNumber,
-      name: "New User",
-      createdAt: Date.now()
+    .catch((error) => {
+      alert(error.message);
     });
-
-    window.location.href = "profile.html";
-  });
 };
+
+/* 🔹 LOGIN */
+window.login = function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      window.location.href = "profile.html";
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+};
+</script>
