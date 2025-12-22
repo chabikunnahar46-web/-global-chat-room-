@@ -1,62 +1,62 @@
 import { db } from "./firebase.js";
-import {
-  ref,
-  push,
-  onChildAdded,
-  remove
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { ref, push, onChildAdded, remove } from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-const username = prompt("Your name?") || "Guest";
-const icon = "https://i.postimg.cc/02Qmwvhd/avatar.png";
+let userName = localStorage.getItem("name") || prompt("Your name?");
+localStorage.setItem("name", userName);
 
 const messagesRef = ref(db, "globalMessages");
-
-const input = document.getElementById("msgInput");
+const msgBox = document.getElementById("messages");
+const input = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
-const messagesDiv = document.getElementById("messages");
 
-// 👉 Send message
+// Send
 sendBtn.onclick = () => {
-  if (input.value.trim() === "") return;
-
-  push(messagesRef, {
-    name: username,
-    message: input.value,
-    icon: icon,
-    time: Date.now()
+  if(input.value.trim()==="") return;
+  push(messagesRef,{
+    name:userName,
+    text:input.value,
+    time:Date.now(),
+    icon:"https://i.postimg.cc/02Qmwvhd/avatar.png"
   });
-
-  input.value = "";
+  input.value="";
 };
 
-// 👉 Receive message
-onChildAdded(messagesRef, (snap) => {
-  const data = snap.val();
-  const key = snap.key;
-
+// Receive
+onChildAdded(messagesRef,(snap)=>{
+  const d = snap.val();
   const div = document.createElement("div");
-  div.className = data.name === username ? "msg me" : "msg";
-
+  div.className = "msg "+(d.name===userName?"me":"");
   div.innerHTML = `
-    <img src="${data.icon}">
-    <span><b>${data.name}</b><br>${data.message}</span>
+    <img class="profile" src="${d.icon}">
+    <div class="bubble">
+      <b>${d.name}</b><br>${d.text}
+    </div>
   `;
-
-  // 📱 Long press → delete
-  let pressTimer;
-  div.addEventListener("touchstart", () => {
-    pressTimer = setTimeout(() => {
-      if (confirm("Delete message?")) {
-        remove(ref(db, "globalMessages/" + key));
-        div.remove();
-      }
-    }, 800);
-  });
-
-  div.addEventListener("touchend", () => {
-    clearTimeout(pressTimer);
-  });
-
-  messagesDiv.appendChild(div);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  div.oncontextmenu = (e)=>{
+    e.preventDefault();
+    if(d.name===userName && confirm("Delete message?")){
+      remove(ref(db,"globalMessages/"+snap.key));
+      div.remove();
+    }
+  }
+  msgBox.appendChild(div);
+  msgBox.scrollTop = msgBox.scrollHeight;
 });
+
+// Menu functions
+window.toggleMenu = ()=>{
+  let m=document.getElementById("menuBox");
+  m.style.display = m.style.display==="block"?"none":"block";
+};
+window.changeName=()=>{
+  let n=prompt("New name?");
+  if(n){localStorage.setItem("name",n);location.reload();}
+};
+window.showCountry=()=>{
+  alert("Country shown by IP (next step)");
+};
+window.toggleTheme=()=>{
+  document.body.style.background =
+  document.body.style.background==="#fff"?"#0b141a":"#fff";
+};
