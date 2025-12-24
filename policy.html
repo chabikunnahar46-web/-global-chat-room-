@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Policy</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <h2>আমাদের Policy & Privacy</h2>
+    <p>আপনার তথ্য সম্পূর্ণ নিরাপদ থাকবে।</p>
+    <button onclick="agree()">I Agree</button>
+    <button onclick="disagree()">Disagree</button>
+</div>
+<script>
+function agree() {
+    localStorage.setItem('agreed', 'true');
+    location.href = 'final.html';
+}
+function disagree() {
+    alert('আপনি ওয়েবসাইটে প্রবেশ করতে পারবেন না।');
+}
+</script>
+</body>
+</html>
