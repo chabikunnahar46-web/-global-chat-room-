@@ -1,54 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Edit Profile</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="edit_profile.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Profile</title>
+<link rel="stylesheet" href="profile.css">
 </head>
-
 <body>
+<h2>Edit Your Profile</h2>
 
-<header class="top-bar">
-  <span onclick="history.back()">←</span>
-  <h3>Edit Profile</h3>
-</header>
+<div class="edit-form">
+    <label>Name:</label>
+    <input type="text" id="nameInput"><br>
 
-<div class="section">
-  <h4>Profile picture</h4>
-  <div class="avatar-box">
-    <img id="avatarPreview" src="https://i.postimg.cc/02Qmwvhd/avatar.png">
-    <label class="edit-btn">
-      Edit
-      <input type="file" id="avatarInput" hidden>
-    </label>
-  </div>
+    <label>Surname:</label>
+    <input type="text" id="surnameInput"><br>
+
+    <label>DOB:</label>
+    <input type="date" id="dobInput"><br>
+
+    <label>Work / Profession:</label>
+    <input type="text" id="workInput"><br>
+
+    <label>School:</label>
+    <input type="text" id="schoolInput"><br>
+
+    <label>Profile Picture:</label>
+    <input type="file" id="profileUpload"><br>
+
+    <label>Cover Photo:</label>
+    <input type="file" id="coverUpload"><br>
+
+    <button id="saveBtn">Save Profile</button>
 </div>
 
-<div class="section">
-  <h4>Cover photo</h4>
-  <div class="cover-box">
-    <img id="coverPreview">
-    <label class="edit-btn">
-      Edit
-      <input type="file" id="coverInput" hidden>
-    </label>
-  </div>
-</div>
+<script type="module">
+import { database } from './firebase.js';
+import { ref, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-<div class="section">
-  <h4>Details</h4>
+// ইউজার আইডি ধরো (login বা localStorage থেকে)
+const userId = localStorage.getItem("userId") || "guest";
+const userRef = ref(database, "profiles/" + userId);
 
-  <input id="name" placeholder="Your name">
-  <input id="city" placeholder="Lives in">
-  <input id="work" placeholder="Work">
-  <input id="school" placeholder="School">
+// Cloudinary আপলোড ফাংশন
+async function uploadToCloudinary(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "YOUR_CLOUDINARY_PRESET"); // Cloudinary preset
 
-  <button onclick="saveProfile()">Save</button>
-</div>
+    const res = await fetch("https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload", {
+        method: "POST",
+        body: formData
+    });
+    const data = await res.json();
+    return data.secure_url;
+}
 
-<!-- Firebase + JS -->
-<script type="module" src="edit_profile.js"></script>
+// Save Button
+document.getElementById("saveBtn").addEventListener("click", async () => {
+    const name = document.getElementById("nameInput").value;
+    const surname = document.getElementById("surnameInput").value;
+    const dob = document.getElementById("dobInput").value;
+    const work = document.getElementById("workInput").value;
+    const school = document.getElementById("schoolInput").value;
 
+    let profileURL = "";
+    let coverURL = "";
+
+    const profileFile = document.getElementById("profileUpload").files[0];
+    const coverFile = document.getElementById("coverUpload").files[0];
+
+    if(profileFile){
+        profileURL = await uploadToCloudinary(profileFile);
+    }
+
+    if(coverFile){
+        coverURL = await uploadToCloudinary(coverFile);
+    }
+
+    set(userRef, {
+        name: name,
+        surname: surname,
+        dob: dob,
+        work: work,
+        school: school,
+        profile: profileURL || "",
+        cover: coverURL || ""
+    }).then(() => {
+        alert("Profile saved successfully!");
+    }).catch(err => {
+        console.error(err);
+        alert("Error saving profile!");
+    });
+});
+</script>
 </body>
-</html>
+      </html>
