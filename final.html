@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Profile</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <h2>Your Profile</h2>
+    <img id="profileImg" src="" alt="Profile" style="width:150px; height:150px; border-radius:50%;">
+    <p>Name: <span id="fullName"></span></p>
+    <p>Date of Birth: <span id="dobDisplay"></span></p>
+    <p>Policy Agreed: <span id="policy"></span></p>
+</div>
+<script>
+document.getElementById('fullName').innerText = localStorage.getItem('name') + " " + localStorage.getItem('surname');
+document.getElementById('dobDisplay').innerText = localStorage.getItem('dob');
+document.getElementById('policy').innerText = localStorage.getItem('agreed') === 'true' ? 'Yes' : 'No';
+const profilePic = localStorage.getItem('profile');
+if(profilePic) {
+    document.getElementById('profileImg').src = profilePic;
+} else {
+    document.getElementById('profileImg').src = 'https://i.postimg.cc/02Qmwvhd/avatar.png'; // Default
+}
+</script>
+</body>
+</html>
