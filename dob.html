@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birth Date</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <h2>জন্ম তারিখ কেনো প্রয়োজন?</h2>
+    <p>আমরা নিশ্চিত করতে চাই যে ইউজার  সঠিক তথ্য দিচ্ছে।</p>
+    <input type="date" id="dob" required>
+    <button onclick="nextPage()">Next</button>
+</div>
+<script>
+function nextPage() {
+    const dob = document.getElementById('dob').value;
+    if(dob) {
+        localStorage.setItem('dob', dob);
+        location.href = 'name.html';
+    } else {
+        alert('Please select your birth date');
+    }
+}
+</script>
+</body>
+</html>
