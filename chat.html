@@ -14,11 +14,14 @@
   <span class="menu" onclick="toggleMenu()">⋮</span>
 </div>
 
-<!-- ☰ Menu -->
+<!-- ☰ WhatsApp-style Menu -->
 <div id="menuBox" class="menu-box">
-  <div onclick="changeName()">Change Name</div>
-  <div onclick="showCountry()">My Country</div>
-  <div onclick="toggleTheme()">Dark / Light</div>
+  <div onclick="openProfile()">👤 Profile</div>
+  <div onclick="changeName()">✏️ Change Name</div>
+  <div onclick="showCountry()">🌍 My Country</div>
+  <div onclick="toggleTheme()">🌗 Dark / Light</div>
+  <div onclick="openSettings()">⚙️ Settings</div>
+  <div onclick="logout()">🚪 Logout</div>
 </div>
 
 <!-- 💬 Messages -->
@@ -31,5 +34,26 @@
 </div>
 
 <script type="module" src="chat.js"></script>
+
+<!-- 🔧 Extra Menu Functions -->
+<script>
+function toggleMenu(){
+  const menu = document.getElementById("menuBox");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+function openProfile(){
+  alert("Profile page coming soon 👤");
+}
+
+function openSettings(){
+  alert("Settings panel coming soon ⚙️");
+}
+
+function logout(){
+  alert("Logout successful 🚪");
+}
+</script>
+
 </body>
-  </html>
+</html>
