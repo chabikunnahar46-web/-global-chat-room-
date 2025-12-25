@@ -1,66 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+  <!DOCTYPE html>
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile</title>
 
 <style>
-body{
-  font-family: Arial, sans-serif;
-  background:#f5f5f5;
-  margin:0;
-}
-
-.header{
-  background:#075E54;
-  color:white;
-  padding:15px;
-  display:flex;
-  align-items:center;
-}
-
-.back{
-  margin-right:15px;
-  font-size:20px;
-  cursor:pointer;
-}
-
-.profile-box{
-  text-align:center;
-  padding:30px;
-}
-
-.profile-box img{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  object-fit:cover;
-}
-
-.item{
-  background:white;
-  margin:10px;
-  padding:15px;
-  border-radius:8px;
-}
+body{margin:0;font-family:Arial;background:#f2f2f2}
+.header{background:#075E54;color:#fff;padding:15px;display:flex}
+.cover{height:180px;background:#ccc;position:relative}
+.cover img{width:100%;height:100%;object-fit:cover}
+.dp{width:110px;height:110px;border-radius:50%;
+position:absolute;bottom:-55px;left:20px;border:4px solid #fff}
+.btn{position:absolute;right:10px;bottom:10px;
+background:#0009;color:#fff;padding:6px;border-radius:50%}
+.info{margin-top:70px;padding:20px}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-  <span class="back" onclick="history.back()">←</span>
-  <h3>Profile</h3>
+<span onclick="history.back()">←</span>&nbsp; Profile
 </div>
 
-<div class="profile-box">
-  <img src="https://i.imgur.com/8Km9tLL.png" alt="Profile">
-  <h2 id="username">Your Name</h2>
+<div class="cover">
+<img id="coverImg">
+<input type="file" id="coverInput" hidden>
+<span class="btn" onclick="coverInput.click()">📷</span>
+
+<img id="dpImg" class="dp">
+<input type="file" id="dpInput" hidden>
 </div>
 
-<div class="item">🌍 Country: <span id="country">Not set</span></div>
-<div class="item">🆔 User ID: Guest</div>
+<div class="info">
+<h2 id="name"></h2>
+<p id="country"></p>
+<button onclick="changeName()">Change Name</button>
+<button onclick="changeCountry()">Change Country</button>
+</div>
 
+<script type="module" src="profile.js"></script>
 </body>
 </html>
