@@ -1,0 +1,116 @@
+/* General Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Body */
+body {
+  background: #0b1020;
+  color: #ffffff;
+}
+
+/* Hero Section */
+.hero {
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.tagline {
+  margin-top: 8px;
+  color: #8b5cf6;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.desc {
+  margin-top: 12px;
+  color: #cbd5f5;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.google-btn {
+  margin-top: 24px;
+  padding: 14px;
+  width: 100%;
+  max-width: 280px;
+  border: none;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.google-btn:hover {
+  background: #e0e0e0;
+}
+
+/* Features Section */
+.features {
+  padding: 24px;
+}
+
+.card {
+  background: #151a2e;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.card-img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 12px;
+}
+
+/* Card Titles & Description */
+.card h3 {
+  margin-top: 12px;
+  font-size: 18px;
+}
+
+.card p {
+  margin-top: 6px;
+  color: #cbd5f5;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  color: #9aa4ff;
+  font-size: 13px;
+}
+
+/* Responsive */
+@media(min-width: 768px){
+  .features {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .card {
+    flex: 1 1 calc(33% - 16px);
+    margin-bottom: 0;
+  }
+  }
