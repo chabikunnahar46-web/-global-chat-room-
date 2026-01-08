@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Content</title>
+  <link rel="stylesheet" href="upload.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Create New</h2>
+  <p>Select what you want to upload</p>
+
+  <div class="options">
+    <div class="card" onclick="selectType('knowledge')">
+      🧠
+      <span>Knowledge Clip</span>
+    </div>
+
+    <div class="card" onclick="selectType('blogger')">
+      ✍️
+      <span>Blogger</span>
+    </div>
+
+    <div class="card disabled">
+      🎬
+      <span>Shorts<br><small>Coming Soon</small></span>
+    </div>
+
+    <div class="card disabled">
+      📹
+      <span>Long Video<br><small>Coming Soon</small></span>
+    </div>
+  </div>
+
+  <div id="form-area"></div>
+</div>
+
+<script src="upload.js"></script>
+</body>
+    </html>
