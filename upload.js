@@ -1,39 +1,26 @@
- const cloudName = "dj1wdote4";
-const uploadPreset = "My upload"; // 🔥 তোমার preset name
+function selectType(type) {
+  let formArea = document.getElementById("form-area");
 
-function uploadImage(file, type) {
-  if (!file) return;
+  if (type === "knowledge") {
+    formArea.innerHTML = `
+      <form>
+        <h3>🧠 Knowledge Clip</h3>
+        <input type="text" placeholder="Topic Title" required>
+        <textarea rows="3" placeholder="English Content" required></textarea>
+        <textarea rows="3" placeholder="বাংলা (Translated)" required></textarea>
+        <button type="submit">Submit for Review</button>
+      </form>
+    `;
+  }
 
-  const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", uploadPreset);
-
-  fetch(url, {
-    method: "POST",
-    body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (!data.secure_url) {
-      alert("Upload failed");
-      return;
-    }
-
-    if (type === "dp") {
-      document.getElementById("dp").src = data.secure_url;
-      saveToFirebase("photo", data.secure_url);
-    }
-
-    if (type === "cover") {
-      document.getElementById("cover").style.backgroundImage =
-        `url(${data.secure_url})`;
-      saveToFirebase("cover", data.secure_url);
-    }
-  })
-  .catch(err => {
-    console.error(err);
-    alert("Cloudinary error");
-  });
-    }
+  if (type === "blogger") {
+    formArea.innerHTML = `
+      <form>
+        <h3>✍️ Blogger Post</h3>
+        <input type="text" placeholder="Post Title" required>
+        <textarea rows="6" placeholder="Write your post..." required></textarea>
+        <button type="submit">Submit for Review</button>
+      </form>
+    `;
+  }
+}
